@@ -9,11 +9,11 @@
 (def router
   (r/router
     [["/" :home]
-     ["/test" :test]]
+     ["/bst" :bst]]
     {:compile rc/compile-request-coercers
      :data {:coercion rsc/coercion}}))
 
 (comment
-  (switch-router! "/test"))
+  (switch-router! "/bst"))
 (defn switch-router! [loc]
   (set! (.-hash js/window.location) (str "#" loc)))
