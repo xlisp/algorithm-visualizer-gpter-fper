@@ -36,7 +36,7 @@
 
  :aliases
  {:run
-  {:main-opts ["-m" "function-program-visualgo.core"]}
+  {:main-opts ["-m" "functional-programming-visualgo.core"]}
 
   :cljs
   {:extra-paths ["src/main/cljs" "env/cljs"]
@@ -49,4 +49,3 @@
 
   :shadow
   {:main-opts ["-m" "shadow.cljs.devtools.cli"]}}}
-

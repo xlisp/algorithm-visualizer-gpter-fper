@@ -2,11 +2,11 @@
  :builds {:fp {:target :browser
                :output-dir "src/main/resources/public/js"
                :modules
-               {:rider {:init-fn function-program-visualgo-fp.app/init}}
+               {:rider {:init-fn functional-programming-visualgo-fp.app/init}}
                :devtools
                {:http-port  8001
                 :http-root  "src/main/resources/public"
-                :after-load function-program-visualgo-fp.app/after-load
+                :after-load functional-programming-visualgo-fp.app/after-load
                 :preloads   [shadow.remote.runtime.cljs.browser]}}
 
           :test {:target   :browser-test

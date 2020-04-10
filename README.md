@@ -1,2 +1,1 @@
-## 函数式算法可视化 function program algorithm visualizer
-
+## 函数式算法可视化 functional programming algorithm visualizer
