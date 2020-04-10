@@ -8,12 +8,14 @@
             [reitit.core :as reitit]
             [functional-programming-visualgo-fp.events]
             [functional-programming-visualgo-fp.home :as home]
+            [functional-programming-visualgo-fp.bst :as bst]
             [functional-programming-visualgo-fp.router :as router])
   (:import goog.History
            (goog.date DateTime Interval)))
 
 (def pages
-  {:home #'home/page})
+  {:home #'home/page
+   :bst #'bst/page})
 
 (defn page []
   [:div
