@@ -2,7 +2,7 @@
  :builds {:fp {:target :browser
                :output-dir "src/main/resources/public/js"
                :modules
-               {:rider {:init-fn functional-programming-visualgo-fp.app/init}}
+               {:fp {:init-fn functional-programming-visualgo-fp.app/init}}
                :devtools
                {:http-port  8001
                 :http-root  "src/main/resources/public"

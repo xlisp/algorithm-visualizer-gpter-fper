@@ -4,10 +4,21 @@
             [clojure.java.io :as io]
             [reitit.core :as r]
             [reitit.ring :as ring]
+            [reitit.core :refer [Expand]]
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
             [ring.util.http-response :as resp]
             [ring.middleware.format :refer [wrap-restful-format]]
             [functional-programming-visualgo.service.fp :as fp]))
+
+(if "release"                           ;; TODO
+  (extend-protocol Expand
+    clojure.lang.Var
+    (expand [this opts]
+      {:handler (var-get this)}))
+  (extend-protocol Expand
+    clojure.lang.Var
+    (expand [this opts]
+      {:handler (fn [& args] (apply (var-get this) args))})))
 
 (defn pong [req]
   (prn (:params req))

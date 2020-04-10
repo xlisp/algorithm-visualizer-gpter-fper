@@ -2,13 +2,13 @@
   (:require [mount.core :as mount]
             [taoensso.timbre :as timbre]
             [ring.adapter.jetty9 :refer [run-jetty]]
-            [functional-programming-visualgo.service.core :refer [app]]))
+            [functional-programming-visualgo.service.core :as service]))
 
 (mount/defstate server
   :start
   (do
     (prn "Start api server at port: " 3008)
-    (run-jetty #'app {:host "0.0.0.0"
+    (run-jetty #'service/app {:host "0.0.0.0"
                       :port 3008
                       :join? false}))
   :stop

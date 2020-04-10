@@ -3,4 +3,4 @@
             [functional-programming-visualgo.service.layout :as layout]))
 
 (defn fp-home-page [req]
-  (:body (layout/render req "public/buffet.html" {})))
+  (:body (layout/render req "public/fp.html" {})))

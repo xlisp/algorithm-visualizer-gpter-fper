@@ -5,3 +5,7 @@
 (defn -main []
   (prn "Start server...")
   (mount/start #'server/server))
+
+(comment
+  (mount/stop #'server/server)
+  (mount/start #'server/server))
