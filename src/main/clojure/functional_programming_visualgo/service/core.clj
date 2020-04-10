@@ -6,7 +6,8 @@
             [reitit.ring :as ring]
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
             [ring.util.http-response :as resp]
-            [ring.middleware.format :refer [wrap-restful-format]]))
+            [ring.middleware.format :refer [wrap-restful-format]]
+            [functional-programming-visualgo.service.fp :as fp]))
 
 (defn pong [req]
   (prn (:params req))
@@ -19,6 +20,7 @@
                               [wrap-keyword-params]]
                  :post pong
                  :get pong}]
+       ["/page/fp/" {:get #'fp/fp-home-page}]
        ["/*" (ring/create-resource-handler)]]
       {:conflicts (constantly nil)})
     (ring/create-default-handler)))
