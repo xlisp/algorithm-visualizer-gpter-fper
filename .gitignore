@@ -1,0 +1,14 @@
+target/
+.cpcache
+.nrepl-port
+lib/
+*.jar
+resources/config.edn
+.shadow-cljs/
+src/main/resources/public/js
+src/main/resources/public/bundle
+node_modules
+config.edn
+.DS_Store
+dist/
+log/
