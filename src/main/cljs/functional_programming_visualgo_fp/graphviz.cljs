@@ -216,7 +216,8 @@
               (str "==== title: " title ","
                 "text: " text ","
                 "id: " id ","
-                "class1: " class1 "."))
+                "class1: " class1 ","
+                "dot-element: " dot-element))
             (let [updated-dot (remove #(>= (.indexOf % dot-element) 0) dot-src-lines)]
               (js/console.log (str "更新dot: ") updated-dot)
               ;;
@@ -224,7 +225,18 @@
               (render))))))))
 
 (comment
-  (render))
+  (render)
+
+  (cljs.pprint/pprint dot-src-lines)
+
+  (cljs.pprint/pprint
+    (remove #(>= (.indexOf % "Node1 -> Node3") 0) dot-src-lines))
+
+  (cljs.pprint/pprint
+    (remove #(>= (.indexOf % "Node1") 0) dot-src-lines))
+
+  (cljs.pprint/pprint dot-src)
+  )
 (defn render []
   (-> graphviz
     (.transition
