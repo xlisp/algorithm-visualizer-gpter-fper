@@ -153,13 +153,7 @@
   ;; 流程PlayGrounds
   (reset! dot-src dot-src-eg)
 
-  ;; (def graphviz
-  ;;   (-> js/d3
-  ;;     (.select "#graph")
-  ;;     (.graphviz)))
-  ;; (render)
-
-  (render {:dot-src @dot-src :gid "#graph" :interactive-fn interactive})
+  (render {:dot-src @dot-src :gid "#graph" :interactive-fn delete-interactive})
 
   ())
 
@@ -197,11 +191,10 @@
     (.select "#graph")
     (.graphviz)))
 
-(declare render)
-
-(defn interactive []
-  (let [nodes (-> js/d3
-                ;; 查出来所有的节点和边
+(defn click-interactive
+  "点击边和节点的通用函数: 回调传出来节点名字等信息"
+  [op-fn]
+  (let [nodes (-> js/d3 ;; 查出来所有的节点和边
                 (.selectAll ".node,.edge"))]
     (.on nodes "click"
       (fn []
@@ -217,14 +210,32 @@
                 "id: " id ","
                 "class1: " class1 ","
                 "dot-element: " dot-element))
-            (let [updated-dot (remove #(>= (.indexOf % dot-element) 0)
-                                (clojure.string/split @dot-src "\n"))]
-              (js/console.log (str "更新dot: ") updated-dot)
-              ;;
-              (reset! dot-src (clojure.string/join "\n" updated-dot))
-              ;; (render)
-              (render {:dot-src @dot-src :gid "#graph" :interactive-fn interactive})
-              )))))))
+            (op-fn
+              {:title title
+               :text text
+               :id id
+               :class1 class1
+               :dot-element dot-element})))))))
+
+(declare render)
+
+;; 通用的CURD Boy思想
+(defn delete-interactive
+  "提供节点或者边的删除的功能,非通用函数"
+  []
+  (click-interactive
+    (fn [{:keys [title text id class1 dot-element]}]
+      (let [updated-dot (remove #(>= (.indexOf % dot-element) 0)
+                          (clojure.string/split @dot-src "\n"))]
+        (js/console.log (str "更新dot: ") updated-dot)
+        (reset! dot-src (clojure.string/join "\n" updated-dot))
+        (render {:dot-src @dot-src :gid "#graph" :interactive-fn delete-interactive})))))
+
+(defn create-interactive "TODO: 增加新的节点到某个节点下面" [])
+(defn update-node-color-interactive  "TODO: 更新节点的颜色" [])
+(defn update-node-value-interactive  "TODO: 更新节点的值" [])
+(defn update-side-color-interactive  "TODO: 更新边的颜色" [])
+(defn update-side-value-interactive  "TODO: 更新边的值" [])
 
 (comment
 
@@ -238,9 +249,9 @@
 
   (cljs.pprint/pprint dot-src)
 
-  (render {:dot-src @dot-src :gid "#graph" :interactive-fn interactive})
-  )
+  (render {:dot-src @dot-src :gid "#graph" :interactive-fn interactive}))
 (defn render
+  "通用的render的播放器函数: 传入gid div的id名, interactive-fn交互的函数, dot-src dot的内容"
   [{:keys [gid interactive-fn dot-src]}]
   (->
     js/d3
