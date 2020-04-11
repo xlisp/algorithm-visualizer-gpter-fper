@@ -40,124 +40,36 @@
     (.graphviz)
     (.renderDot dot)))
 
-(comment
-  (map
-    (fn [item]
-      (print (clojure.string/join  "\n" (js->clj item))))
-    (array-seq  js/dots))
-  )
+(def dot-src-eg-list
+  (list
+    "Node1 [id=\"NodeId1\" label=\"N1\" fillcolor=\"#d62728\"]"
+    "Node2 [id=\"NodeId2\" label=\"N2\" fillcolor=\"#1f77b4\"]"
+    "Node3 [id=\"NodeId3\" label=\"N3\" fillcolor=\"#2ca02c\"]"
+    "Node4 [id=\"NodeId4\" label=\"N4\" fillcolor=\"#ff7f0e\"]"
+    "Node1 -> Node2 [id=\"EdgeId12\" label=\"E12\"]"
+    "Node1 -> Node3 [id=\"EdgeId13\" label=\"E13\"]"
+    "Node2 -> Node3 [id=\"EdgeId23\" label=\"E23\"]"
+    "Node3 -> Node4 [id=\"EdgeId34\" label=\"E34\"]"))
 
-;; TODO: 需要底层的函数的功能: 能生长 和 删除节点和边的功能
-;; 1. 参考https://bl.ocks.org/magjac/4acffdb3afbc4f71b448a210b5060bca来模拟树的生长过程
-;; 2. 参考https://bl.ocks.org/magjac/28a70231e2c9dddb84b3b20f450a215f来模拟删除节点和边的过程
-;; 3. 参考https://bl.ocks.org/magjac/f485e7b915c9699aa181a11e183f8237来模拟线动态连接和生长过程
-(defonce play-list-eg
-  (reagent/atom
-    "digraph  {
-    node [style=\"filled\"]
-    a [fillcolor=\"#d62728\"]
-    b [fillcolor=\"#1f77b4\"]
-    a -> b
-}"
-    "digraph  {
-    node [style=\"filled\"]
-    a [fillcolor=\"#d62728\"]
-    c [fillcolor=\"#2ca02c\"]
-    b [fillcolor=\"#1f77b4\"]
-    a -> b
-    a -> c
-}"
-    "digraph  {
-    node [style=\"filled\"]
-    a [fillcolor=\"#d62728\"]
-    b [fillcolor=\"#1f77b4\"]
-    c [fillcolor=\"#2ca02c\"]
-    a -> b
-    a -> c
-}"
-    "digraph  {
-    node [style=\"filled\"]
-    a [fillcolor=\"#d62728\", shape=\"box\"]
-    b [fillcolor=\"#1f77b4\", shape=\"parallelogram\"]
-    c [fillcolor=\"#2ca02c\", shape=\"pentagon\"]
-    a -> b
-    a -> c
-    b -> c
-}"
-    "digraph  {
-    node [style=\"filled\"]
-    a [fillcolor=\"yellow\", shape=\"star\"]
-    b [fillcolor=\"yellow\", shape=\"star\"]
-    c [fillcolor=\"yellow\", shape=\"star\"]
-    a -> b
-    a -> c
-    b -> c
-}"
-    "digraph  {
-    node [style=\"filled\"]
-    a [fillcolor=\"#d62728\", shape=\"triangle\"]
-    b [fillcolor=\"#1f77b4\", shape=\"diamond\"]
-    c [fillcolor=\"#2ca02c\", shape=\"trapezium\"]
-    a -> b
-    a -> c
-    b -> c
-}"
-    "digraph  {
-    node [style=\"filled\"]
-    a [fillcolor=\"#d62728\", shape=\"box\"]
-    b [fillcolor=\"#1f77b4\", shape=\"parallelogram\"]
-    c [fillcolor=\"#2ca02c\", shape=\"pentagon\"]
-    a -> b
-    a -> c
-    b -> c
-}"
-    "digraph  {
-    node [style=\"filled\"]
-    a [fillcolor=\"#d62728\"]
-    b [fillcolor=\"#1f77b4\"]
-    c [fillcolor=\"#2ca02c\"]
-    a -> b
-    a -> c
-    c -> b
-}"
-    "digraph  {
-    node [style=\"filled\"]
-    b [fillcolor=\"#1f77b4\"]
-    c [fillcolor=\"#2ca02c\"]
-    c -> b
-}"
-    "digraph  {
-    node [style=\"filled\"]
-    b [fillcolor=\"#1f77b4\"]
-}"))
-
-(defn d3-graphviz-render [id])
-(defn d3-graphviz-player [id])
-
-(def dot-src-eg
-  "
+(defn dot-template [dot-list]
+  (str "
   digraph {
-    graph [label=\"Click on a node or an edge to delete it\" labelloc=\"t\", fontsize=\"20.0\" tooltip=\" \"]
+    graph [label=\" \" labelloc=\"t\", fontsize=\"20.0\" tooltip=\" \"]
     node [style=\"filled\"]
-    Node1 [id=\"NodeId1\" label=\"N1\" fillcolor=\"#d62728\"]
-    Node2 [id=\"NodeId2\" label=\"N2\" fillcolor=\"#1f77b4\"]
-    Node3 [id=\"NodeId3\" label=\"N3\" fillcolor=\"#2ca02c\"]
-    Node4 [id=\"NodeId4\" label=\"N4\" fillcolor=\"#ff7f0e\"]
-    Node1 -> Node2 [id=\"EdgeId12\" label=\"E12\"]
-    Node1 -> Node3 [id=\"EdgeId131\" label=\"E13\"]
-    Node2 -> Node3 [id=\"EdgeId23\" label=\"E23\"]
-    Node3 -> Node4 [id=\"EdgeId34\" label=\"E34\"]
-  }")
+"
+    (clojure.string/join  "\n" dot-list)
+    "
+  }"))
+
+(defonce dot-src (reagent/atom (dot-template dot-src-eg-list)))
 
 (comment
   ;; 流程PlayGrounds
-  (reset! dot-src dot-src-eg)
+  (reset! dot-src (dot-template dot-src-eg-list) )
 
   (render {:dot-src @dot-src :gid "#graph" :interactive-fn delete-interactive})
 
   ())
-
-(defonce dot-src (reagent/atom dot-src-eg))
 
 (defn get-node-title [this]
   (->
@@ -185,11 +97,6 @@
     js/d3
     (.select this)
     (.attr "class")))
-
-(def graphviz
-  (-> js/d3
-    (.select "#graph")
-    (.graphviz)))
 
 (defn click-interactive
   "点击边和节点的通用函数: 回调传出来节点名字等信息"
@@ -234,8 +141,8 @@
 (defn create-interactive "TODO: 增加新的节点到某个节点下面" [])
 (defn update-node-color-interactive  "TODO: 更新节点的颜色" [])
 (defn update-node-value-interactive  "TODO: 更新节点的值" [])
-(defn update-side-color-interactive  "TODO: 更新边的颜色" [])
-(defn update-side-value-interactive  "TODO: 更新边的值" [])
+(defn update-edge-color-interactive  "TODO: 更新边的颜色" [])
+(defn update-edge-value-interactive  "TODO: 更新边的值" [])
 
 (comment
 
