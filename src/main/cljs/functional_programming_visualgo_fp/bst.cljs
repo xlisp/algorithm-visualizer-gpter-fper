@@ -38,12 +38,13 @@
      [:div.pl2
       [:div.bg-yellow.pa3 {:style {:height "3em"
                                    :width "4em"}} "登陆"]]]]
-   [:div#graph]
+   [:div.flex.flex-column.justify-center.items-center.mt5
+    {:id "graph"}]
    [:div.flex.flex-row.pa3
     [:div.flex.flex-auto]
     [:div
      [:button.f5.ba.bg-white
-      {:on-click #(prn 1)
+      {:on-click #(graphviz/d3-graphviz "#graph" "digraph  {a -> d; a -> c; c -> d}")
        :style {:border-radius "1em"
                :height "2em"
                :color "gray"
