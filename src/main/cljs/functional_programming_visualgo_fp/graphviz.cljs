@@ -51,7 +51,7 @@
 ;; 1. 参考https://bl.ocks.org/magjac/4acffdb3afbc4f71b448a210b5060bca来模拟树的生长过程
 ;; 2. 参考https://bl.ocks.org/magjac/28a70231e2c9dddb84b3b20f450a215f来模拟删除节点和边的过程
 ;; 3. 参考https://bl.ocks.org/magjac/f485e7b915c9699aa181a11e183f8237来模拟线动态连接和生长过程
-(def play-list-eg
+(defonce play-list-eg
   (reagent/atom
     "digraph  {
     node [style=\"filled\"]
@@ -132,5 +132,90 @@
 }"))
 
 (defn d3-graphviz-render [id])
-
 (defn d3-graphviz-player [id])
+
+(defonce dot-src
+  (reagent/atom
+    "
+digraph {
+    graph [label=\"Click on a node or an edge to delete it\" labelloc=\"t\", fontsize=\"20.0\" tooltip=\" \"]
+    node [style=\"filled\"]
+    Node1 [id=\"NodeId1\" label=\"N1\" fillcolor=\"#d62728\"]
+    Node2 [id=\"NodeId2\" label=\"N2\" fillcolor=\"#1f77b4\"]
+    Node3 [id=\"NodeId3\" label=\"N3\" fillcolor=\"#2ca02c\"]
+    Node4 [id=\"NodeId4\" label=\"N4\" fillcolor=\"#ff7f0e\"]
+    Node1 -> Node2 [id=\"EdgeId12\" label=\"E12\"]
+    Node1 -> Node3 [id=\"EdgeId131\" label=\"E13\"]
+    Node2 -> Node3 [id=\"EdgeId23\" label=\"E23\"]
+    Node3 -> Node4 [id=\"EdgeId34\" label=\"E34\"]
+}"))
+
+
+(defn get-node-title [this]
+  (->
+    js/d3
+    (.select this)
+    (.selectAll "title")
+    (.text)
+    (.trim)))
+
+(defn get-node-text [this]
+  (->
+    js/d3
+    (.select this)
+    (.selectAll "text")
+    (.text)))
+
+(defn get-node-id [this]
+  (->
+    js/d3
+    (.select this)
+    (.attr "id")))
+
+(defn get-node-class [this]
+  (->
+    js/d3
+    (.select this)
+    (.attr "class")))
+
+(defn interactive []
+  (let [nodes (-> js/d3
+                ;; 查出来所有的节点和边
+                (.selectAll ".node,.edge"))]
+    (.on nodes "click"
+      (fn []
+        (this-as this
+          (let [title (get-node-title this)
+                text (get-node-text this)
+                id (get-node-id this)
+                class1 (get-node-class this)]
+            ;;
+            (js/console.log
+              (str "==== title: " title ","
+                "text: " text ","
+                "id: " id ","
+                "class1: " class1 "."))
+            ;;
+            ))))))
+
+(comment
+  (def dot-src-lines (clojure.string/split @dot-src "\n"))
+
+  (def graphviz
+    (-> js/d3
+      (.select "#graph")
+      (.graphviz)))
+
+  (render {:graphviz graphviz :dot-src @dot-src :interactive interactive}))
+(defn render
+  [{:keys [graphviz dot-src interactive]}]
+  (let []
+    (-> graphviz
+      (.transition
+        (fn []
+          (-> js/d3
+            (.transition)
+            (.delay 100)
+            (.duration 1000))))
+      (.renderDot dot-src)
+      (.on "end" interactive))))
