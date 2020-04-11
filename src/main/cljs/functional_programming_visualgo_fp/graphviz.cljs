@@ -51,6 +51,13 @@
     "Node2 -> Node3 [id=\"EdgeId23\" label=\"E23\"]"
     "Node3 -> Node4 [id=\"EdgeId34\" label=\"E34\"]"))
 
+(def dot-src-eg-list-2
+  (list
+    "Node1 -> Node2"
+    "Node1 -> Node3"
+    "Node2 -> Node3"
+    "Node3 -> Node4"))
+
 (defn dot-template [dot-list]
   (str "
   digraph {
@@ -66,6 +73,21 @@
 (comment
   ;; 流程PlayGrounds
   (reset! dot-src (dot-template dot-src-eg-list) )
+
+
+  (render {:dot-src @dot-src :gid "#graph" :interactive-fn delete-interactive})
+
+  ;; 2: 增加一个node: 能够显示动态的切换效果,就像视频一样
+  (reset! dot-src (dot-template
+                    (concat dot-src-eg-list-2
+                      (list)
+                      (list "Node2 -> Node5")
+                      (list "Node5 -> Node6")
+                      (list "Node3 -> Node6")
+                      ;; ....
+                      ;;
+                      )
+                    ))
 
   (render {:dot-src @dot-src :gid "#graph" :interactive-fn delete-interactive})
 
