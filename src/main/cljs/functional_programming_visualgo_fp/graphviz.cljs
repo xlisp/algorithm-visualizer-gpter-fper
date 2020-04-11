@@ -153,12 +153,14 @@
   ;; 流程PlayGrounds
   (reset! dot-src dot-src-eg)
 
-  (def graphviz
-    (-> js/d3
-      (.select "#graph")
-      (.graphviz)))
+  ;; (def graphviz
+  ;;   (-> js/d3
+  ;;     (.select "#graph")
+  ;;     (.graphviz)))
+  ;; (render)
 
-  (render)
+  (render {:dot-src @dot-src :gid "#graph" :interactive-fn interactive})
+
   ())
 
 (defonce dot-src (reagent/atom dot-src-eg))
@@ -220,10 +222,11 @@
               (js/console.log (str "更新dot: ") updated-dot)
               ;;
               (reset! dot-src (clojure.string/join "\n" updated-dot))
-              (render))))))))
+              ;; (render)
+              (render {:dot-src @dot-src :gid "#graph" :interactive-fn interactive})
+              )))))))
 
 (comment
-  (render)
 
   (cljs.pprint/pprint dot-src-lines)
 
@@ -234,14 +237,20 @@
     (remove #(>= (.indexOf % "Node1") 0) dot-src-lines))
 
   (cljs.pprint/pprint dot-src)
+
+  (render {:dot-src @dot-src :gid "#graph" :interactive-fn interactive})
   )
-(defn render []
-  (-> graphviz
+(defn render
+  [{:keys [gid interactive-fn dot-src]}]
+  (->
+    js/d3
+    (.select gid)
+    (.graphviz)
     (.transition
       (fn []
         (-> js/d3
           (.transition)
           (.delay 100)
           (.duration 1000))))
-    (.renderDot @dot-src)
-    (.on "end" interactive)))
+    (.renderDot dot-src)
+    (.on "end" interactive-fn)))
