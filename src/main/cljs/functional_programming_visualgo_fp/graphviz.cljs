@@ -153,8 +153,6 @@
   ;; 流程PlayGrounds
   (reset! dot-src dot-src-eg)
 
-  (def dot-src-lines (clojure.string/split @dot-src "\n"))
-
   (def graphviz
     (-> js/d3
       (.select "#graph")
@@ -164,7 +162,6 @@
   ())
 
 (defonce dot-src (reagent/atom dot-src-eg))
-(def dot-src-lines (clojure.string/split @dot-src "\n"))
 
 (defn get-node-title [this]
   (->
@@ -218,7 +215,8 @@
                 "id: " id ","
                 "class1: " class1 ","
                 "dot-element: " dot-element))
-            (let [updated-dot (remove #(>= (.indexOf % dot-element) 0) dot-src-lines)]
+            (let [updated-dot (remove #(>= (.indexOf % dot-element) 0)
+                                (clojure.string/split @dot-src "\n"))]
               (js/console.log (str "更新dot: ") updated-dot)
               ;;
               (reset! dot-src (clojure.string/join "\n" updated-dot))
