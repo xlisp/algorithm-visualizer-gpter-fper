@@ -134,10 +134,9 @@
 (defn d3-graphviz-render [id])
 (defn d3-graphviz-player [id])
 
-(defonce dot-src
-  (reagent/atom
-    "
-digraph {
+(def dot-src-eg
+  "
+  digraph {
     graph [label=\"Click on a node or an edge to delete it\" labelloc=\"t\", fontsize=\"20.0\" tooltip=\" \"]
     node [style=\"filled\"]
     Node1 [id=\"NodeId1\" label=\"N1\" fillcolor=\"#d62728\"]
@@ -148,8 +147,24 @@ digraph {
     Node1 -> Node3 [id=\"EdgeId131\" label=\"E13\"]
     Node2 -> Node3 [id=\"EdgeId23\" label=\"E23\"]
     Node3 -> Node4 [id=\"EdgeId34\" label=\"E34\"]
-}"))
+  }")
 
+(comment
+  ;; 流程PlayGrounds
+  (reset! dot-src dot-src-eg)
+
+  (def dot-src-lines (clojure.string/split @dot-src "\n"))
+
+  (def graphviz
+    (-> js/d3
+      (.select "#graph")
+      (.graphviz)))
+
+  (render)
+  ())
+
+(defonce dot-src (reagent/atom dot-src-eg))
+(def dot-src-lines (clojure.string/split @dot-src "\n"))
 
 (defn get-node-title [this]
   (->
@@ -178,6 +193,13 @@ digraph {
     (.select this)
     (.attr "class")))
 
+(def graphviz
+  (-> js/d3
+    (.select "#graph")
+    (.graphviz)))
+
+(declare render)
+
 (defn interactive []
   (let [nodes (-> js/d3
                 ;; 查出来所有的节点和边
@@ -188,34 +210,28 @@ digraph {
           (let [title (get-node-title this)
                 text (get-node-text this)
                 id (get-node-id this)
-                class1 (get-node-class this)]
-            ;;
+                class1 (get-node-class this)
+                dot-element (clojure.string/replace title "->" " -> ")]
             (js/console.log
               (str "==== title: " title ","
                 "text: " text ","
                 "id: " id ","
                 "class1: " class1 "."))
-            ;;
-            ))))))
+            (let [updated-dot (remove #(>= (.indexOf % dot-element) 0) dot-src-lines)]
+              (js/console.log (str "更新dot: ") updated-dot)
+              ;;
+              (reset! dot-src (clojure.string/join "\n" updated-dot))
+              (render))))))))
 
 (comment
-  (def dot-src-lines (clojure.string/split @dot-src "\n"))
-
-  (def graphviz
-    (-> js/d3
-      (.select "#graph")
-      (.graphviz)))
-
-  (render {:graphviz graphviz :dot-src @dot-src :interactive interactive}))
-(defn render
-  [{:keys [graphviz dot-src interactive]}]
-  (let []
-    (-> graphviz
-      (.transition
-        (fn []
-          (-> js/d3
-            (.transition)
-            (.delay 100)
-            (.duration 1000))))
-      (.renderDot dot-src)
-      (.on "end" interactive))))
+  (render))
+(defn render []
+  (-> graphviz
+    (.transition
+      (fn []
+        (-> js/d3
+          (.transition)
+          (.delay 100)
+          (.duration 1000))))
+    (.renderDot @dot-src)
+    (.on "end" interactive)))
