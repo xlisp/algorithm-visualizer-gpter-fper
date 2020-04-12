@@ -1,9 +1,11 @@
 (ns functional-programming-visualgo.core
   (:require [functional-programming-visualgo.state.server :as server]
-            [mount.core :as mount]))
+            [mount.core :as mount]
+            [functional-programming-visualgo.state.database :as database]))
 
 (defn -main []
   (prn "Start server...")
+  (mount/start #'database/*datasource*)
   (mount/start #'server/server))
 
 (comment
