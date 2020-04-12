@@ -1,4 +1,6 @@
-{:database {:dbtype   "mysql"
+{:redis    {:pool {} :spec {:host "127.0.0.1"
+                            :port 6379}}
+ :database {:dbtype   "mysql"
             :dbname   "functional_programming_visualgo"
             :host     "127.0.0.1"
             :port     3306

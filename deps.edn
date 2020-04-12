@@ -32,7 +32,8 @@
   selmer                                          {:mvn/version "1.12.18"}
   ragtime                                         {:mvn/version "0.8.0"}
   wechat-clj                                      {:mvn/version "0.2.3"}
-  dk.ative/docjure                                {:mvn/version "1.14.0-SNAPSHOT"}}
+  dk.ative/docjure                                {:mvn/version "1.14.0-SNAPSHOT"}
+  com.taoensso/carmine                            {:mvn/version "2.19.1"}}
 
  :aliases
  {:run
