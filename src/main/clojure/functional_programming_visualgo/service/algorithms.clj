@@ -22,3 +22,40 @@
     (sql/where [:= :id id])
     (sql/limit 1)
     (u/sql-execute-1!)))
+
+(defn get-algorithms
+  []
+  (-> (sql/select :*)
+    (sql/from :algorithms)
+    (u/sql-execute!)))
+
+(comment
+  (new-algorithm
+    {:name "有向图"
+     :desc "有向图的搜索和编辑等操作"}))
+(defn new-algorithm
+  [{:keys [name desc]}]
+  (-> (sql/insert-into :algorithms)
+    (sql/values [{:name name
+                  :desc desc}])
+    (u/sql-execute-1!)))
+
+(comment
+  (get-nodes {:algorithm-id 1})
+  )
+(defn get-nodes
+  [{:keys [algorithm-id]}]
+  (-> (sql/select :*)
+    (sql/from :nodes)
+    (sql/where [:= :algorithm algorithm-id])
+    (u/sql-execute!)))
+
+(comment
+  (get-node-by-id {:id 1}))
+(defn get-node-by-id
+  [{:keys [id]}]
+  (-> (sql/select :*)
+    (sql/from :nodes)
+    (sql/where [:= :id id])
+    (sql/limit 1)
+    (u/sql-execute-1!)))
