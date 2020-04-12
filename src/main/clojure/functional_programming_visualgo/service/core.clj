@@ -8,7 +8,8 @@
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
             [ring.util.http-response :as resp]
             [ring.middleware.format :refer [wrap-restful-format]]
-            [functional-programming-visualgo.service.fp :as fp]))
+            [functional-programming-visualgo.service.fp :as fp]
+            [functional-programming-visualgo.service.algorithms :as algorithms]))
 
 (if "release"                           ;; TODO
   (extend-protocol Expand
