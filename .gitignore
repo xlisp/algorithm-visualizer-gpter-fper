@@ -14,3 +14,4 @@ dist/
 log/
 src/main/cljs/functional_programming_visualgo_fp/*.scm
 config.edn
+dump.rdb

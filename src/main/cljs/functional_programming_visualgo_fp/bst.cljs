@@ -1,7 +1,9 @@
 (ns functional-programming-visualgo-fp.bst
   (:require [re-frame.core :as re-frame]
             [reagent.core :as reagent]
-            [functional-programming-visualgo-fp.graphviz :as graphviz]))
+            [functional-programming-visualgo-fp.graphviz :as graphviz]
+            [functional-programming-visualgo-fp.panel :as panel]))
+
 
 ;; 参考D3.js的领域描述来设计你的公共函数库,你的TODO
 
@@ -27,17 +29,7 @@
 
 (defn page []
   [:div
-   [:div.bg-black.w-100 {:style {:height "3em"}}
-    [:div.flex.flex-row
-     [:img {:style {:width 20}
-            :on-click #(.go js/history -1)
-            :src "/img/back.svg"}]
-     [:div.white.pa3.flex.flex-auto "二叉搜索树"]
-     [:div.white.pa3 {:style {:height "3em"
-                              :width "7em"}} "示例模式"]
-     [:div.pl2
-      [:div.bg-yellow.pa3 {:style {:height "3em"
-                                   :width "4em"}} "登陆"]]]]
+   [panel/header {:title "二叉搜索树"}]
    [:div.flex.flex-column.justify-center.items-center.mt5
     {:id "graph"}]
    [:div.flex.flex-row.pa3

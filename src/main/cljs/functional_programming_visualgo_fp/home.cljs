@@ -53,7 +53,13 @@
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} "凸体船体"]
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} "最小顶点覆盖"]
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} "Traveling Salesman"]
-     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} "Steiner Tree"]]]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} "Steiner Tree"]]
+    [:div.flex.flex-row.mt3
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
+                         :on-click #(router/switch-router! "/base-math1")} "函数式编程Hello Kid"]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} "其他算法1"]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} "其他算法2"]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} "其他算法3"]]]
 
    [:div.bg-black.w-100 {:style {:height "3em"}}
     [:div.flex.flex-row

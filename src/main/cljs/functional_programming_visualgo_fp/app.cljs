@@ -9,13 +9,15 @@
             [functional-programming-visualgo-fp.events]
             [functional-programming-visualgo-fp.home :as home]
             [functional-programming-visualgo-fp.bst :as bst]
-            [functional-programming-visualgo-fp.router :as router])
+            [functional-programming-visualgo-fp.router :as router]
+            [functional-programming-visualgo-fp.base.math1 :as base-math1])
   (:import goog.History
            (goog.date DateTime Interval)))
 
 (def pages
   {:home #'home/page
-   :bst #'bst/page})
+   :bst #'bst/page
+   :base-math1 #'base-math1/page})
 
 (defn page []
   [:div
