@@ -59,27 +59,28 @@
     "Node2 -> Node3"
     "Node3 -> Node4"))
 
-(defn dot-template [dot-list]
+(defn dot-template [label dot-list]
   (str "
   digraph {
-    graph [label=\" \" labelloc=\"t\", fontsize=\"20.0\" tooltip=\" \"]
+    graph [label=\" " label
+    " \" labelloc=\"t\", fontsize=\"20.0\" tooltip=\" \"]
     node [style=\"filled\"]
 "
     (clojure.string/join  "\n" dot-list)
     "
   }"))
 
-(defonce dot-src (reagent/atom (dot-template dot-src-eg-list)))
+(defonce dot-src (reagent/atom (dot-template "" dot-src-eg-list)))
 
 (comment
   ;; 流程PlayGrounds
-  (reset! dot-src (dot-template dot-src-eg-list) )
+  (reset! dot-src (dot-template "" dot-src-eg-list) )
 
 
   (render {:dot-src @dot-src :gid "#graph" :interactive-fn delete-interactive})
 
   ;; 2: 增加一个node: 能够显示动态的切换效果,就像视频一样
-  (reset! dot-src (dot-template
+  (reset! dot-src (dot-template ""
                     (concat dot-src-eg-list-2
                       (list)
                       (list "Node2 -> Node5")
