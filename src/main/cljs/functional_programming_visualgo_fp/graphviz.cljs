@@ -170,6 +170,8 @@
 (defn update-edge-color-interactive  "TODO: 更新边的颜色" [])
 (defn update-edge-value-interactive  "TODO: 更新边的值" [])
 
+(def play-speed 1)
+
 (comment
 
   (cljs.pprint/pprint dot-src-lines)
@@ -194,8 +196,8 @@
       (fn []
         (-> js/d3
           (.transition)
-          (.delay 100)
-          (.duration 1000))))
+          (.delay (* play-speed 100))
+          (.duration (* play-speed 1000)))))
     (.renderDot dot-src)
     (.on "end" interactive-fn)))
 
@@ -215,3 +217,11 @@
              (count rlist))
          (render-list gid rlist dot-index)
          nil))}))
+
+(defn dot-circle-tmp
+  [& {:keys [label datas]}]
+  (dot-template label
+    (map
+      (fn [item]
+        (str " " item " [shape=\"circle\" label=\"" item " \" fillcolor=\"\"]"))
+      datas)))
