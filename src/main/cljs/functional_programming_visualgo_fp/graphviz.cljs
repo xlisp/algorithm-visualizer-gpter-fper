@@ -1,6 +1,7 @@
 (ns functional-programming-visualgo-fp.graphviz
   (:require [re-frame.core :as re-frame]
-            [reagent.core :as reagent]))
+            [reagent.core :as reagent]
+            [functional-programming-visualgo-fp.datas :as datas]))
 
 ;; (def viz js/Viz)
 (def viz identity)
@@ -196,3 +197,20 @@
           (.duration 1000))))
     (.renderDot dot-src)
     (.on "end" interactive-fn)))
+
+
+(comment
+  (render-list "#graph" @datas/play-list-eg (atom 0)))
+(defn render-list
+  "递归播放列表(可以用atom,一直修改atom列表来模拟过程)直到列表结束为止"
+  [gid rlist dot-index]
+  (render
+    {:dot-src (get rlist @dot-index)
+     :gid gid
+     :interactive-fn
+     (fn []
+       (swap! dot-index inc)
+       (if (not= dot-index
+             (count rlist))
+         (render-list gid rlist dot-index)
+         nil))}))

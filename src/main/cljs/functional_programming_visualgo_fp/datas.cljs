@@ -15,13 +15,13 @@
 ;; 3. 参考https://bl.ocks.org/magjac/f485e7b915c9699aa181a11e183f8237来模拟线动态连接和生长过程
 (defonce play-list-eg
   (reagent/atom
-    "digraph  {
+    [ "digraph  {
     node [style=\"filled\"]
     a [fillcolor=\"#d62728\"]
     b [fillcolor=\"#1f77b4\"]
     a -> b
 }"
-    "digraph  {
+     "digraph  {
     node [style=\"filled\"]
     a [fillcolor=\"#d62728\"]
     c [fillcolor=\"#2ca02c\"]
@@ -29,7 +29,7 @@
     a -> b
     a -> c
 }"
-    "digraph  {
+     "digraph  {
     node [style=\"filled\"]
     a [fillcolor=\"#d62728\"]
     b [fillcolor=\"#1f77b4\"]
@@ -37,7 +37,7 @@
     a -> b
     a -> c
 }"
-    "digraph  {
+     "digraph  {
     node [style=\"filled\"]
     a [fillcolor=\"#d62728\", shape=\"box\"]
     b [fillcolor=\"#1f77b4\", shape=\"parallelogram\"]
@@ -46,7 +46,7 @@
     a -> c
     b -> c
 }"
-    "digraph  {
+     "digraph  {
     node [style=\"filled\"]
     a [fillcolor=\"yellow\", shape=\"star\"]
     b [fillcolor=\"yellow\", shape=\"star\"]
@@ -55,7 +55,7 @@
     a -> c
     b -> c
 }"
-    "digraph  {
+     "digraph  {
     node [style=\"filled\"]
     a [fillcolor=\"#d62728\", shape=\"triangle\"]
     b [fillcolor=\"#1f77b4\", shape=\"diamond\"]
@@ -64,7 +64,7 @@
     a -> c
     b -> c
 }"
-    "digraph  {
+     "digraph  {
     node [style=\"filled\"]
     a [fillcolor=\"#d62728\", shape=\"box\"]
     b [fillcolor=\"#1f77b4\", shape=\"parallelogram\"]
@@ -73,7 +73,7 @@
     a -> c
     b -> c
 }"
-    "digraph  {
+     "digraph  {
     node [style=\"filled\"]
     a [fillcolor=\"#d62728\"]
     b [fillcolor=\"#1f77b4\"]
@@ -82,16 +82,16 @@
     a -> c
     c -> b
 }"
-    "digraph  {
+     "digraph  {
     node [style=\"filled\"]
     b [fillcolor=\"#1f77b4\"]
     c [fillcolor=\"#2ca02c\"]
     c -> b
 }"
-    "digraph  {
+     "digraph  {
     node [style=\"filled\"]
     b [fillcolor=\"#1f77b4\"]
-}"))
+}"]))
 
 (defn d3-graphviz-render [id])
 (defn d3-graphviz-player [id])
