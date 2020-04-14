@@ -11,4 +11,7 @@
 
 (comment
   (mount/stop #'server/server)
-  (mount/start #'server/server))
+
+  (do
+    (mount/start #'database/*datasource*)
+    (mount/start #'server/server)))
