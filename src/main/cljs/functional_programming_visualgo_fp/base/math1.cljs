@@ -17,19 +17,36 @@
     (graphviz/render-list
       "#graph"
       [(graphviz/dot-circle-tmp :label "初始化..." :datas ["加载中"])
-       (graphviz/dot-circle-tmp :label "给一列数字" :datas eg-data)
-       ;; 3. 实现第一列和第二列的连接
-       (graphviz/dot-template "给这列数字乘以平方"
-         (concat
+
+       ;; (graphviz/dot-circle-tmp :label "给一列数字" :datas eg-data)
+
+       (graphviz/dot-template "给一列数字"
+         (->>
+           eg-data
            (map
              (fn [item]
-               (str " " item " [shape=\"circle\" label=\"" item " \" fillcolor=\"\"]"))
+               (str " " item " [shape=\"circle\" label=\"" item " \" fillcolor=\"\"]")))))
 
-             (concat  eg-data
-               (map #(* % %) eg-data)))
-           (map #(str % " -> " (* % %)
-                   " [label=\"平方\"]")
-             eg-data)))
+       (graphviz/dot-template "第二列数字"
+         (->>
+           eg-data
+           (concat (map #(* % %) eg-data))
+           (map
+             (fn [item]
+               (str " " item " [shape=\"circle\" label=\"" item " \" fillcolor=\"\"]")))))
+
+       ;; 3. 实现第一列和第二列的连接
+       (graphviz/dot-template "给这列数字乘以平方"
+         (->>
+           eg-data
+           (concat (map #(* % %) eg-data))
+           (map
+             (fn [item]
+               (str " " item " [shape=\"circle\" label=\"" item " \" fillcolor=\"\"]")))
+           (concat
+             (map #(str % " -> " (* % %)
+                     " [label=\"平方\"]")
+               eg-data))))
 
        ;; 4. 将符合`a^2 + b^2 = c^2`的取出来
        (let [selected-stri
@@ -52,17 +69,13 @@
                          (str c "" " -> " a "" "\n")))
                  uniq-datas))]
          (graphviz/dot-template "取出所有符合a^2 + b^2 = c^2的组合出来"
-           (concat
+           (->>
+             []
+             (concat (map #(* % %) eg-data))
              (map
                (fn [item]
-                 (str " " item " [shape=\"circle\" label=\"" item " \" fillcolor=\"\"]"))
-
-               (concat  [] #_eg-data
-                 (map #(* % %) eg-data)))
-             #_(map #(str % " -> " (* % %)
-                       " [label=\"平方\"]")
-                 eg-data)
-             selected-stri)))
+                 (str " " item " [shape=\"circle\" label=\"" item " \" fillcolor=\"\"]")))
+             (concat selected-stri))))
        ;; 5. 解平方 => label上面可以加上文案
        (let [selected-stri
              (let  [datas2 (map #(* % %) eg-data)
@@ -88,18 +101,12 @@
 
          ;; selected-stri
          (graphviz/dot-template "解平方"
-           (concat
+           (->>
+             eg-data
              (map
                (fn [item]
-                 (str " " item " [shape=\"circle\" label=\"" item " \" fillcolor=\"\"]"))
-
-               eg-data
-               #_(concat  [] #_eg-data
-                   (map #(* % %) eg-data)))
-             #_(map #(str % " -> " (* % %)
-                       " [label=\"平方\"]")
-                 eg-data)
-             selected-stri))
+                 (str " " item " [shape=\"circle\" label=\"" item " \" fillcolor=\"\"]")))
+             (concat selected-stri)))
          )
        ;;
        ]
