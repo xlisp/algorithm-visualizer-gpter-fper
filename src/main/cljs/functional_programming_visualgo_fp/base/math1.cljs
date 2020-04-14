@@ -5,21 +5,12 @@
             [functional-programming-visualgo-fp.panel :as panel]
             [functional-programming-visualgo-fp.datas :as datas]))
 
-(defn page []
-  [:div
-   [panel/header {:title "函数式编程Hello Kid"}]
-   [:div.flex.flex-column.justify-center.items-center.mt5
-    {:id "graph"}]
-   ])
-
-(comment
+(defn math1 []
   (let [eg-data (map #(+ % (rand-int 10) ) (range 1 40))]
     (graphviz/render-list
       "#graph"
       [(graphviz/dot-circle-tmp :label "初始化..." :datas ["加载中"])
-
        ;; (graphviz/dot-circle-tmp :label "给一列数字" :datas eg-data)
-
        (graphviz/dot-template "给一列数字"
          (->>
            eg-data
@@ -47,7 +38,6 @@
              (map #(str % " -> " (* % %)
                      " [label=\"平方\"]")
                eg-data))))
-
        ;; 4. 将符合`a^2 + b^2 = c^2`的取出来
        (let [selected-stri
              (let  [datas2 (map #(* % %) eg-data)
@@ -70,7 +60,7 @@
                  uniq-datas))]
          (graphviz/dot-template "取出所有符合a^2 + b^2 = c^2的组合出来"
            (->>
-             []
+             eg-data ;; []
              (concat (map #(* % %) eg-data))
              (map
                (fn [item]
@@ -96,21 +86,37 @@
                            (str a "" " -> " b "" "\n")
                            (str b "" " -> " c "" "\n")
                            (str c "" " -> " a "" "\n"))))
-                 uniq-datas))
-             ]
-
-         ;; selected-stri
+                 uniq-datas))]
          (graphviz/dot-template "解平方"
            (->>
              eg-data
              (map
                (fn [item]
                  (str " " item " [shape=\"circle\" label=\"" item " \" fillcolor=\"\"]")))
-             (concat selected-stri)))
-         )
-       ;;
-       ]
+             (concat selected-stri))))]
+      (atom 0))))
 
-      (atom 0)))
-
-  ())
+(defn page []
+  [:div
+   [panel/header {:title "函数式编程Hello Kid"}]
+   [:div.flex.flex-column.justify-center.items-center.mt5
+    {:id "graph"}]
+   [:div.flex.flex-row.pa3
+    [:div.flex.flex-auto]
+    [:div
+     [:button.f5.ba.bg-white
+      {:on-click math1
+       :style {:border-radius "1em"
+               :height "2em"
+               :color "gray"
+               :border "2px solid rgba(187, 187, 187, 1)"
+               :width "9em"}}
+      "可视化计算过程"]
+     [:button.f5.ba.bg-white.ml4
+      {:on-click #(js/alert "算法时间复杂度为O(n^3)")
+       :style {:border-radius "1em"
+               :height "2em"
+               :color "gray"
+               :border "2px solid rgba(187, 187, 187, 1)"
+               :width "9em"}}
+      "算法时间复杂度"]]]])
