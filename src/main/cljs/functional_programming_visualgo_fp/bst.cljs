@@ -51,7 +51,9 @@
         {:style {:margin-left "2.1em"
                  :height "11em"} }
         [:div.flex.flex-column
-         [:div.pa2 {:class (<class css/hover-menu-style) } "创建"]
+         [:div.pa2 {:class (<class css/hover-menu-style)
+                    :on-click #(graphviz/d3-graphviz "#graph"
+                                 "digraph  {4 -> 3; 4 -> 8; 3 -> 1; 8 -> 7; 8 -> 16; 1 -> 2; 16 -> 10; 10 -> 9; 10 -> 14}")} "创建"]
          [:div.pa2 {:class (<class css/hover-menu-style) } "搜索"]
          [:div.pa2 {:class (<class css/hover-menu-style) } "插入"]
          [:div.pa2 {:class (<class css/hover-menu-style) } "移除"]
