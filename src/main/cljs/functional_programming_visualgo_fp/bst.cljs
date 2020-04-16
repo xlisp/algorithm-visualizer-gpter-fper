@@ -2,8 +2,9 @@
   (:require [re-frame.core :as re-frame]
             [reagent.core :as reagent]
             [functional-programming-visualgo-fp.graphviz :as graphviz]
-            [functional-programming-visualgo-fp.panel :as panel]))
-
+            [functional-programming-visualgo-fp.panel :as panel]
+            [herb.core :refer [<class]]
+            [functional-programming-visualgo-fp.multiplexing-css :as css]))
 
 ;; 参考D3.js的领域描述来设计你的公共函数库,你的TODO
 
@@ -50,11 +51,11 @@
         {:style {:margin-left "2.1em"
                  :height "11em"} }
         [:div.flex.flex-column
-         [:div.pa2 "创建"]
-         [:div.pa2 "搜索"]
-         [:div.pa2 "插入"]
-         [:div.pa2 "移除"]
-         [:div.pa2 "中序遍历"]]]
+         [:div.pa2 {:class (<class css/hover-menu-style) } "创建"]
+         [:div.pa2 {:class (<class css/hover-menu-style) } "搜索"]
+         [:div.pa2 {:class (<class css/hover-menu-style) } "插入"]
+         [:div.pa2 {:class (<class css/hover-menu-style) } "移除"]
+         [:div.pa2 {:class (<class css/hover-menu-style) } "中序遍历"]]]
        [:nobr])
      [:div.flex.flex-row {:style {:height "90vh"}}
       ;; 左边菜单栏
