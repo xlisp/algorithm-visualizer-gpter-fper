@@ -27,19 +27,29 @@
   "TODO: 修改圆圈内部的text内容"
   [text text2])
 
+(defn generate-rand-tree []
+  [:div.flex.flex-row.pa3
+   [:div.flex.flex-auto]
+   [:div
+    [:button.f5.ba.bg-white
+     {:on-click #(graphviz/d3-graphviz "#graph" "digraph  {a -> d; a -> c; c -> d}")
+      :style {:border-radius "1em"
+              :height "2em"
+              :color "gray"
+              :border "2px solid rgba(187, 187, 187, 1)"
+              :width "7em"}}
+     "生成随机树"]]])
+
 (defn page []
   [:div
    [panel/header {:title "二叉搜索树"}]
-   [:div.flex.flex-column.justify-center.items-center.mt5
-    {:id "graph"}]
-   [:div.flex.flex-row.pa3
-    [:div.flex.flex-auto]
-    [:div
-     [:button.f5.ba.bg-white
-      {:on-click #(graphviz/d3-graphviz "#graph" "digraph  {a -> d; a -> c; c -> d}")
-       :style {:border-radius "1em"
-               :height "2em"
-               :color "gray"
-               :border "2px solid rgba(187, 187, 187, 1)"
-               :width "7em"}}
-      "生成随机树"]]]])
+   [:div.flex.flex-row
+    [:div.bg-black {:style {:width "2em"
+                            :height "100vh"}}]
+    [:div.flex.flex-auto.justify-center.items-center.mt3.mb3
+     {:style {:height "90vh"}
+      :id "graph"}]
+    [:div.bg-black {:style {:width "2em"
+                            :height "100vh"}}]]
+
+   ])
