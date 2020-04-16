@@ -41,22 +41,42 @@
      "生成随机树"]]])
 
 (defn page []
-  [:div
-   [panel/header {:title "二叉搜索树"}]
-   [:div.flex.flex-row {:style {:height "90vh"}}
-    ;; 左边菜单栏
-    [:div.flex.flex-column.h-100.bg-black
-     {:style {:width "2em"}}
-     [:div.flex.flex-auto {:style {:height "60vh"}}]
-     [:div.bg-yellow {:style {:height "30vh"}} ]
-     [:div.bg-black {:style {:height "10vh"}}]]
-    ;; TODO: svg高度限制不了的问题,外面的盒子高度限制不管用, 但是宽度是能flex的
-    [:div.flex.flex-auto.justify-center.items-center.mt3.mb3
-     {:style {:height "80vh"}
-      :id "graph"}]
-    ;; 右边菜单栏
-    [:div.bg-black {:style {:width "2em"}}]]
-   ;; 底部菜单栏
-   [:div.absolute.bottom-0.flex.flex-row.w-100.bg-black
-    {:style {:height "2em"}}
-    [:div]]])
+  (reagent/with-let [left-menu (reagent/atom "close")]
+    [:div
+     [panel/header {:title "二叉搜索树"}]
+     (if (= @left-menu "open")
+       ;; 用绝对定位来漂浮一个菜单或者弹窗
+       [:div.absolute.bottom-0.bg-yellow.mb5
+        {:style {:margin-left "2.1em"
+                 :height "11em"} }
+        [:div.flex.flex-column
+         [:div.pa2 "创建"]
+         [:div.pa2 "搜索"]
+         [:div.pa2 "插入"]
+         [:div.pa2 "移除"]
+         [:div.pa2 "中序遍历"]]]
+       [:nobr])
+     [:div.flex.flex-row {:style {:height "90vh"}}
+      ;; 左边菜单栏
+      [:div.flex.flex-column.h-100.bg-black
+       {:style {:width "2em"}}
+       [:div.flex.flex-auto {:style {:height "60vh"}}]
+       [:div.bg-yellow {:style {:height "12.4em"}
+                        :on-click #(if (= @left-menu "close")
+                                     (reset! left-menu "open")
+                                     (reset! left-menu "close"))}
+        [:div.pt5 [:img {:src
+                         (if (= @left-menu "close")
+                           "/img/openRightMini.svg"
+                           "/img/openLeftMini.svg")}]]]
+       [:div.bg-black {:style {:height "10vh"}}]]
+      ;; TODO: svg高度限制不了的问题,外面的盒子高度限制不管用, 但是宽度是能flex的
+      [:div.flex.flex-auto.justify-center.items-center.mt3.mb3
+       {:style {:height "80vh"}
+        :id "graph"}]
+      ;; 右边菜单栏
+      [:div.bg-black {:style {:width "2em"}}]]
+     ;; 底部菜单栏
+     [:div.absolute.bottom-0.flex.flex-row.w-100.bg-black
+      {:style {:height "2em"}}
+      [:div]]]))
