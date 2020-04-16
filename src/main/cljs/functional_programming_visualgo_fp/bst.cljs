@@ -44,12 +44,16 @@
   [:div
    [panel/header {:title "二叉搜索树"}]
    [:div.flex.flex-row
+    ;; 左边菜单栏
     [:div.bg-black {:style {:width "2em"
                             :height "100vh"}}]
     [:div.flex.flex-auto.justify-center.items-center.mt3.mb3
      {:style {:height "90vh"}
       :id "graph"}]
+    ;; 右边菜单栏
     [:div.bg-black {:style {:width "2em"
                             :height "100vh"}}]]
-
-   ])
+   ;; 底部菜单栏
+   [:div.absolute.bottom-0.flex.flex-row.w-100.bg-black
+    {:style {:height "2em"}}
+    [:div]]])
