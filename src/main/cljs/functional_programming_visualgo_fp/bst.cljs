@@ -33,7 +33,7 @@
    [:div.flex.flex-auto]
    [:div
     [:button.f5.ba.bg-white
-     {:on-click #(graphviz/d3-graphviz "#graph" "digraph  {a -> d; a -> c; c -> d}")
+     {:on-click #(graphviz/d3-graphviz "#graph" "digraph  {4 -> 3; 4 -> 8; 3 -> 1; 8 -> 7; 8 -> 16}")
       :style {:border-radius "1em"
               :height "2em"
               :color "gray"

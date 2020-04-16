@@ -31,7 +31,11 @@
     [:div.flex.flex-row.mt3
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} "二叉堆"]
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
-                         :on-click #(router/switch-router! "/bst")} "二叉搜索树"]
+                         :on-click #(router/switch-router! "/bst")}
+      [:div.flex.justify-center.items-center.pt3.flex-column
+       [:div "二叉搜索树"]
+       [:div {:style {:width "8em"}}
+        [:img {:src "/img/bst-logo.svg"}]]]]
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} "图结构"]
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} "并查集"]]
     [:div.flex.flex-row.mt3
