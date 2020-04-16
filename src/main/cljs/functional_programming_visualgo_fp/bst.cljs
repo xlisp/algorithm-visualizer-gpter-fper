@@ -43,16 +43,19 @@
 (defn page []
   [:div
    [panel/header {:title "二叉搜索树"}]
-   [:div.flex.flex-row
+   [:div.flex.flex-row {:style {:height "90vh"}}
     ;; 左边菜单栏
-    [:div.bg-black {:style {:width "2em"
-                            :height "100vh"}}]
+    [:div.flex.flex-column.h-100.bg-black
+     {:style {:width "2em"}}
+     [:div.flex.flex-auto {:style {:height "60vh"}}]
+     [:div.bg-yellow {:style {:height "30vh"}} ]
+     [:div.bg-black {:style {:height "10vh"}}]]
+    ;; TODO: svg高度限制不了的问题,外面的盒子高度限制不管用, 但是宽度是能flex的
     [:div.flex.flex-auto.justify-center.items-center.mt3.mb3
-     {:style {:height "90vh"}
+     {:style {:height "80vh"}
       :id "graph"}]
     ;; 右边菜单栏
-    [:div.bg-black {:style {:width "2em"
-                            :height "100vh"}}]]
+    [:div.bg-black {:style {:width "2em"}}]]
    ;; 底部菜单栏
    [:div.absolute.bottom-0.flex.flex-row.w-100.bg-black
     {:style {:height "2em"}}
