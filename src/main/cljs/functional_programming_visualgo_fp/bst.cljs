@@ -55,23 +55,80 @@
 
 (comment
   (s-key (tree-insert (list) 5))        ;=> 5
+
   (tree-insert (list) 5)
   ;; => (() 5 ())
   (tree-insert (tree-insert (tree-insert (list) 5)  6) 8)
   ;; => (() 5 (() 6 (() 8 ())))
+
+  (def bst-tree (tree-insert (tree-insert (tree-insert (tree-insert (list) 5)  6) 8) 3))
+  ;; => ((() 3 ()) 5 (() 6 (() 8 ())))
+
+  (graphviz/d3-graphviz "#graph" "digraph  {5 -> 3; 5 -> 6; 6 -> 8}")
+
+  (graphviz/d3-graphviz "#graph"
+    "digraph  {4 -> 3; 4 -> 8; 3 -> 1; 8 -> 7; 8 -> 16; 1 -> 2; 16 -> 10; 10 -> 9; 10 -> 14}")
+
+  (->
+    (tree-insert (list) 4)
+    (tree-insert 3)
+    (tree-insert 8)
+    (tree-insert 1)
+    (tree-insert 2)
+    (tree-insert 7)
+    (tree-insert 16)
+    (tree-insert 10)
+    (tree-insert 9)
+    (tree-insert 14))
+
+  ;; =>
+  ((((?) 1 ((?) 2 (?))) 3 (?))
+   4
+   (((?) 7 (?)) 8 ((((?) 9 (?)) 10 ((?) 14 (?))) 16 (?))))
+
+
+  (right bst-tree)
+  ;; => (() 6 (() 8 ()))
+
+  (left bst-tree)
+  ;; => (() 3 ())
+
+  ;; 根据中序遍历的结果来生成一颗目标的bst树
+  (->
+    (tree-insert (list) 4) ;; ROOT节点的值
+    ;; 左边的树杈
+    (tree-insert 3)
+    (tree-insert 1)
+    (tree-insert 2)
+    ;; 右边的树杈
+    (tree-insert 8)
+    (tree-insert 7)
+    (tree-insert 16)
+    (tree-insert 10)
+    (tree-insert 9)
+    (tree-insert 14))
+  ;; => (((() 1 (() 2 ())) 3 ()) 4 ((() 7 ()) 8 (((() 9 ()) 10 (() 14 ())) 16 ())))
+
+  ;; TODO:
+  ;; 1. 需要将 树列表 转为dot形式展示出来
+  ;; 2. 需要将 dot形式 转为 树列表
   )
 (defn tree-insert
   "二叉树的插入"
   [tree x]
   (cond (empty? tree) (list '() x '())
         (< x (s-key tree))
-	    (make-tree (tree-insert (left tree) x)
-		  (s-key tree)
-		  (right tree))
+        (doto
+	        (make-tree (tree-insert (left tree) x)
+		      (s-key tree)
+		      (right tree))
+          (prn x "左边"))
         (> x (s-key tree))
-	    (make-tree (left tree)
-		  (s-key tree)
-		  (tree-insert (right tree) x))))
+        (doto
+	        (make-tree (left tree)
+		      (s-key tree)
+		      (tree-insert (right tree) x))
+          (prn x "右边"))))
 
 (defn page []
   (reagent/with-let [left-menu (reagent/atom "close")]
