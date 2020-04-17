@@ -81,7 +81,7 @@
        ;; 用绝对定位来漂浮一个菜单或者弹窗
        [:div.absolute.bottom-0.bg-yellow.mb5
         {:style {:margin-left "2.1em"
-                 :height "11em"} }
+                 :height "15em"} }
         [:div.flex.flex-column
          [:div.pa2 {:class (<class css/hover-menu-style)
                     :on-click #(graphviz/d3-graphviz "#graph"
@@ -89,7 +89,9 @@
          [:div.pa2 {:class (<class css/hover-menu-style) } "搜索"]
          [:div.pa2 {:class (<class css/hover-menu-style) } "插入"]
          [:div.pa2 {:class (<class css/hover-menu-style) } "移除"]
-         [:div.pa2 {:class (<class css/hover-menu-style) } "中序遍历"]]]
+         [:div.pa2 {:class (<class css/hover-menu-style) } "中序遍历"]
+         [:div.pa2 {:class (<class css/hover-menu-style) } "前序遍历"]
+         [:div.pa2 {:class (<class css/hover-menu-style) } "后序遍历"]]]
        [:nobr])
      [:div.flex.flex-row {:style {:height "90vh"}}
       ;; 左边菜单栏
