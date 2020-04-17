@@ -54,45 +54,6 @@
   (if (empty? tree) '() (sch/caddr tree)))
 
 (comment
-  (s-key (tree-insert (list) 5))        ;=> 5
-
-  (tree-insert (list) 5)
-  ;; => (() 5 ())
-  (tree-insert (tree-insert (tree-insert (list) 5)  6) 8)
-  ;; => (() 5 (() 6 (() 8 ())))
-
-  (def bst-tree (tree-insert (tree-insert (tree-insert (tree-insert (list) 5)  6) 8) 3))
-  ;; => ((() 3 ()) 5 (() 6 (() 8 ())))
-
-  (graphviz/d3-graphviz "#graph" "digraph  {5 -> 3; 5 -> 6; 6 -> 8}")
-
-  (graphviz/d3-graphviz "#graph"
-    "digraph  {4 -> 3; 4 -> 8; 3 -> 1; 8 -> 7; 8 -> 16; 1 -> 2; 16 -> 10; 10 -> 9; 10 -> 14}")
-
-  (->
-    (tree-insert (list) 4)
-    (tree-insert 3)
-    (tree-insert 8)
-    (tree-insert 1)
-    (tree-insert 2)
-    (tree-insert 7)
-    (tree-insert 16)
-    (tree-insert 10)
-    (tree-insert 9)
-    (tree-insert 14))
-
-  ;; =>
-  ((((?) 1 ((?) 2 (?))) 3 (?))
-   4
-   (((?) 7 (?)) 8 ((((?) 9 (?)) 10 ((?) 14 (?))) 16 (?))))
-
-
-  (right bst-tree)
-  ;; => (() 6 (() 8 ()))
-
-  (left bst-tree)
-  ;; => (() 3 ())
-
   ;; 根据中序遍历的结果来生成一颗目标的bst树
   (def bst-tree
     (->
@@ -109,88 +70,6 @@
       (tree-insert 9)
       (tree-insert 14)))
   ;; => (((() 1 (() 2 ())) 3 ()) 4 ((() 7 ()) 8 (((() 9 ()) 10 (() 14 ())) 16 ())))
-
-  ;; TODO:
-  ;; 1. 需要将 树列表 转为dot形式展示出来
-  ;; 2. 需要将 dot形式 转为 树列表
-
-  (take 1 bst-tree)
-  (take 2 bst-tree)
-  (take 3 bst-tree)
-
-  (first bst-tree)
-  (last bst-tree)
-
-  ;; parent = n;
-  ;; left = 2n;
-  ;; right = 2n + 1;
-  (nth bst-tree 0 ) ;;找到左树杈
-  (nth bst-tree 1 ) ;; 找到父节点
-  (nth bst-tree 2 ) ;;找到右树杈
-
-  (def aaa1  (tree-insert (tree-insert (list) 5)  6))
-  (nth aaa1 0 )
-  (nth aaa1 1 )
-  (nth aaa1 2 )
-
-  (def aaa2  (tree-insert (tree-insert (tree-insert (list) 5) 6) 3))
-  (nth aaa2 0 )
-  (nth aaa2 1 )
-  (nth aaa2 2 )
-
-  (def aaa3   (tree-insert (tree-insert (tree-insert (tree-insert (list) 5) 6) 3) 2))
-  (nth aaa3  0)
-  (nth aaa3  1)
-  (nth aaa3  2)
-
-  (nth (nth aaa3  0) 0)
-  (nth (nth aaa3  0) 1)
-  (nth (nth aaa3  0) 2)
-
-  (loop [cnt 5
-         acc 1
-         datas ;; aaa3
-         (nth bst-tree 1)
-         ]
-    (do
-
-      (if (or (empty? datas) (zero? cnt))
-        acc
-        (recur
-          (dec cnt)
-          (* acc cnt)
-          ;; aaa3
-          (do
-            (prn "左边" (nth datas 0) "===根" (nth datas 1) "***右边" (nth datas 2))
-            (let [left-data (nth datas 0)
-                  root (nth datas 1)
-                  right-data (nth datas 2)]
-              (prn  root " -> " (nth left-data 1) )
-              )
-            ;; (nth datas 2)
-            ;; datas
-            (list
-              (nth datas 0)
-              (nth datas 1)
-              (nth datas 2)
-              )
-            )
-          )))
-    )
-
-  #_((fn [n]
-       (loop [cnt n
-              acc 1]
-         (if (zero? cnt)
-           acc
-           (recur (dec cnt)
-             (* acc cnt)
-             ;; aaa3
-             ))))
-     5)
-
-  bst-tree
-
   )
 (defn tree-insert
   "二叉树的插入"
@@ -215,12 +94,11 @@
   ;; => (() 14 ())
   (tree-search bst-tree 10)
   ;; => ((() 9 ()) 10 (() 14 ()))
-  (tree-search bst-tree 8)
   )
 (defn tree-search
   "插入的反函数就是搜索,搜索的反函数就是插入: 多分支的递归函数的脚手架"
   [tree x]
-  (prn "===" tree "***" (s-key tree))
+  (prn tree "这里打印出来的是搜索路径高亮TODO:" (s-key tree))
   (cond (empty? tree) tree
 	    (= x (s-key tree)) tree
 	    (< x (s-key tree)) (tree-search (left tree) x)
