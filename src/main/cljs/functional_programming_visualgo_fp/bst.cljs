@@ -4,7 +4,8 @@
             [functional-programming-visualgo-fp.graphviz :as graphviz]
             [functional-programming-visualgo-fp.panel :as panel]
             [herb.core :refer [<class]]
-            [functional-programming-visualgo-fp.multiplexing-css :as css]))
+            [functional-programming-visualgo-fp.multiplexing-css :as css]
+            [functional-programming-visualgo-fp.scheme :as sch]))
 
 ;; 参考D3.js的领域描述来设计你的公共函数库,你的TODO
 
@@ -40,6 +41,37 @@
               :border "2px solid rgba(187, 187, 187, 1)"
               :width "7em"}}
      "生成随机树"]]])
+
+(defn make-tree [left key right]
+  (list left key right))
+
+(defn s-key [tree]  (sch/cadr tree))
+
+(defn left [tree]
+  (if (empty? tree) '() (sch/car tree)))
+
+(defn right [tree]
+  (if (empty? tree) '() (sch/caddr tree)))
+
+(comment
+  (s-key (tree-insert (list) 5))        ;=> 5
+  (tree-insert (list) 5)
+  ;; => (() 5 ())
+  (tree-insert (tree-insert (tree-insert (list) 5)  6) 8)
+  ;; => (() 5 (() 6 (() 8 ())))
+  )
+(defn tree-insert
+  "二叉树的插入"
+  [tree x]
+  (cond (empty? tree) (list '() x '())
+        (< x (s-key tree))
+	    (make-tree (tree-insert (left tree) x)
+		  (s-key tree)
+		  (right tree))
+        (> x (s-key tree))
+	    (make-tree (left tree)
+		  (s-key tree)
+		  (tree-insert (right tree) x))))
 
 (defn page []
   (reagent/with-let [left-menu (reagent/atom "close")]

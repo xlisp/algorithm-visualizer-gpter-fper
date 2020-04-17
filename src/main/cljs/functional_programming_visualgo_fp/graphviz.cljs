@@ -201,7 +201,6 @@
     (.renderDot dot-src)
     (.on "end" interactive-fn)))
 
-
 (comment
   (render-list "#graph" @datas/play-list-eg (atom 0)))
 (defn render-list
