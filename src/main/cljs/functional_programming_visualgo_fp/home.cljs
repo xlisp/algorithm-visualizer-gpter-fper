@@ -3,6 +3,10 @@
             [reagent.core :as reagent]
             [functional-programming-visualgo-fp.router :as router]))
 
+(defn dividing-line []
+  [:div.ml2.mt3 {:style {:width "100vh"}}
+   [:hr {:style {:border "thin solid #CCCCCC"}}]])
+
 (defn menu-item
   [& {:keys [title logo]}]
   [:div.flex.justify-center.items-center.pt3.flex-column
@@ -28,8 +32,11 @@
      [:div.pl2
       [:img {:style {:width 25}
              :src "/img/search.svg"}]]]]
-
+   ;;
    [:div.flex.flex-column.justify-center.items-center.mt5.mb5
+    [:div.flex.flex-row {:style {:width "40em"}}
+     [:div.mb3.b "基本算法"]
+     [:div.flex.flex-auto]]
     [:div.flex.flex-row
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "排序" :logo "/img/bst-logo.svg"] ]
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "位掩码" :logo "/img/bst-logo.svg"] ]
@@ -62,13 +69,26 @@
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "最小顶点覆盖" :logo "/img/bst-logo.svg"] ]
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "Traveling Salesman" :logo "/img/bst-logo.svg"] ]
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "Steiner Tree" :logo "/img/bst-logo.svg"] ]]
+    [dividing-line]
+    [:div.flex.flex-row {:style {:width "40em"}}
+     [:div.mb3.b.mt3 "其他函数式算法"]
+     [:div.flex.flex-auto]]
     [:div.flex.flex-row.mt3
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
                          :on-click #(router/switch-router! "/base-math1")}
       [menu-item :title "函数式编程Hello Kid" :logo "/img/bst-logo.svg"]]
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "其他算法1" :logo "/img/bst-logo.svg"] ]
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "其他算法2" :logo "/img/bst-logo.svg"] ]
-     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "其他算法3" :logo "/img/bst-logo.svg"] ]]]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "其他算法3" :logo "/img/bst-logo.svg"] ]]
+    [dividing-line]
+    [:div.flex.flex-row {:style {:width "40em"}}
+     [:div.mb3.b.mt3 "深度学习算法"]
+     [:div.flex.flex-auto]]
+    [:div.flex.flex-row.mt3
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "CNN" :logo "/img/bst-logo.svg"]]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "RNN" :logo "/img/bst-logo.svg"] ]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "自编码器" :logo "/img/bst-logo.svg"] ]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "GNN" :logo "/img/bst-logo.svg"] ]]]
 
    [:div.bg-black.w-100 {:style {:height "3em"}}
     [:div.flex.flex-row
