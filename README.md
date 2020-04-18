@@ -3,13 +3,9 @@
 
 ![](https://raw.githubusercontent.com/chanshunli/functional-programming-visualgo/master/website_preview.png)
 
-### 示例: 如何在数组中找到直角三角形的组合？
+### 如何在数组中找到直角三角形的组合？
 
 ![](https://raw.githubusercontent.com/chanshunli/functional-programming-visualgo/master/demo_fp_visualgo.gif)
 
 ### 二叉搜索树
 ![](https://raw.githubusercontent.com/chanshunli/functional-programming-visualgo/master/demo_bst_search.gif)
-
-### 使用说明[TODO]:
-
-![](https://raw.githubusercontent.com/chanshunli/functional-programming-visualgo/master/usage.png)
