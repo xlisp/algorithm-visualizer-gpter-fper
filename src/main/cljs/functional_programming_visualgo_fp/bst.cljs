@@ -107,7 +107,7 @@
   [tree x op-fn]
   (do
     (op-fn (s-key tree))
-    ;; (prn tree "这里打印出来的是搜索路径高亮TODO:" (s-key tree))
+    ;; (prn tree "这里打印出来的是搜索路径高亮:" (s-key tree))
     (cond (empty? tree) tree
 	      (= x (s-key tree)) tree
 	      (< x (s-key tree)) (tree-search (left tree) x op-fn)
@@ -149,18 +149,13 @@
                          :on-click #(if (= @left-menu "close")
                                       (reset! left-menu "open")
                                       (reset! left-menu "close"))}
-         [:div.pt6
-          [:img {:src
-                 (if (= @left-menu "close")
-                   "/img/openRightMini.svg"
-                   "/img/openLeftMini.svg")}]]]]
-       #_[:div.flex.flex-column.h-100
-          {:style {:width "2em"}}
-          [:div.flex.flex-auto ;; {:style {:height "60vh"}}
-           ]
-
-          [:div.bg-black {:style {:height "10vh"}}]]
-       ;;
+         [:div.h-100.bg-red.flex
+          [:div.flex.justify-center.align-center
+           [:img {:style {:height "15em"}
+                  :src
+                  (if (= @left-menu "close")
+                    "/img/openRightMini.svg"
+                    "/img/openLeftMini.svg")}]]]]]
        (if (= @left-menu "open")
          [:div.flex.flex-column.bg-yellow.ml1
           [:div.pa2 {:class (<class css/hover-menu-style)
