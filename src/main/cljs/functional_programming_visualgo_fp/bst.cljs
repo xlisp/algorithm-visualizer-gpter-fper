@@ -40,7 +40,8 @@
    [:div.flex.flex-auto]
    [:div
     [:button.f5.ba.bg-white
-     {:on-click #(graphviz/d3-graphviz "#graph" "digraph  {4 -> 3; 4 -> 8; 3 -> 1; 8 -> 7; 8 -> 16}")
+     {:on-click #(graphviz/d3-graphviz "#graph"
+                   "digraph  {4 -> 3; 4 -> 8; 3 -> 1; 8 -> 7; 8 -> 16}")
       :style {:border-radius "1em"
               :height "2em"
               :color "gray"
@@ -139,39 +140,53 @@
   (reagent/with-let [left-menu (reagent/atom "close")]
     [:div
      [panel/header {:title "二叉搜索树"}]
-     (if (= @left-menu "open")
-       ;; 用绝对定位来漂浮一个菜单或者弹窗
-       [:div.absolute.bottom-0.bg-yellow.mb5
-        {:style {:margin-left "2.1em"
-                 :height "15em"} }
-        [:div.flex.flex-column
-         [:div.pa2 {:class (<class css/hover-menu-style)
-                    :on-click #(graphviz/d3-graphviz "#graph"
-                                 "digraph  {node [style=\"filled\"]; 4 -> 3; 4 -> 8; 3 -> 1; 8 -> 7; 8 -> 16; 1 -> 2; 16 -> 10; 10 -> 9; 10 -> 14}")} "创建"]
-         [:div.pa2 {:class (<class css/hover-menu-style)
-                    :on-click (fn []
-                                (reset! bst-tree-atom [])
-                                (tree-search-visual 9))} "搜索"]
-         [:div.pa2 {:class (<class css/hover-menu-style) } "插入"]
-         [:div.pa2 {:class (<class css/hover-menu-style) } "移除"]
-         [:div.pa2 {:class (<class css/hover-menu-style) } "中序遍历"]
-         [:div.pa2 {:class (<class css/hover-menu-style) } "前序遍历"]
-         [:div.pa2 {:class (<class css/hover-menu-style) } "后序遍历"]]]
-       [:nobr])
+     [:div.absolute.bottom-0.mb5
+      ;; 用绝对定位来漂浮一个菜单或者弹窗: 左边菜单栏
+      {:style {:height "15em"} }
+      [:div.flex.flex-row
+       [:div {:style {:width "2em"}}
+        [:div.bg-yellow {:style {:height "15em"}
+                         :on-click #(if (= @left-menu "close")
+                                      (reset! left-menu "open")
+                                      (reset! left-menu "close"))}
+         [:div.pt6
+          [:img {:src
+                 (if (= @left-menu "close")
+                   "/img/openRightMini.svg"
+                   "/img/openLeftMini.svg")}]]]]
+       #_[:div.flex.flex-column.h-100
+          {:style {:width "2em"}}
+          [:div.flex.flex-auto ;; {:style {:height "60vh"}}
+           ]
+
+          [:div.bg-black {:style {:height "10vh"}}]]
+       ;;
+       (if (= @left-menu "open")
+         [:div.flex.flex-column.bg-yellow.ml1
+          [:div.pa2 {:class (<class css/hover-menu-style)
+                     :on-click #(graphviz/d3-graphviz "#graph"
+                                  "digraph  {node [style=\"filled\"]; 4 -> 3; 4 -> 8; 3 -> 1; 8 -> 7; 8 -> 16; 1 -> 2; 16 -> 10; 10 -> 9; 10 -> 14}")} "创建"]
+          [:div.pa2 {:class (<class css/hover-menu-style)
+                     :on-click (fn []
+                                 (reset! bst-tree-atom [])
+                                 (tree-search-visual 9))} "搜索"]
+          [:div.pa2 {:class (<class css/hover-menu-style) } "插入"]
+          [:div.pa2 {:class (<class css/hover-menu-style) } "移除"]
+          [:div.pa2 {:class (<class css/hover-menu-style) } "中序遍历"]
+          [:div.pa2 {:class (<class css/hover-menu-style) } "前序遍历"]
+          [:div.pa2 {:class (<class css/hover-menu-style) } "后序遍历"]]
+         [:div])
+       #_[:div.flex.flex-column.bg-yellow.ml1
+          [:div.pa2 {:class (<class css/hover-menu-style) } "创建"]
+          [:div.pa2 {:class (<class css/hover-menu-style) } "搜索"]
+          [:div.pa2 {:class (<class css/hover-menu-style) } "插入"]
+          [:div.pa2 {:class (<class css/hover-menu-style) } "移除"]
+          [:div.pa2 {:class (<class css/hover-menu-style) } "中序遍历"]
+          [:div.pa2 {:class (<class css/hover-menu-style) } "前序遍历"]
+          [:div.pa2 {:class (<class css/hover-menu-style) } "后序遍历"]]]]
      [:div.flex.flex-row {:style {:height "90vh"}}
-      ;; 左边菜单栏
       [:div.flex.flex-column.h-100.bg-black
-       {:style {:width "2em"}}
-       [:div.flex.flex-auto {:style {:height "60vh"}}]
-       [:div.bg-yellow {:style {:height "12.4em"}
-                        :on-click #(if (= @left-menu "close")
-                                     (reset! left-menu "open")
-                                     (reset! left-menu "close"))}
-        [:div.pt5 [:img {:src
-                         (if (= @left-menu "close")
-                           "/img/openRightMini.svg"
-                           "/img/openLeftMini.svg")}]]]
-       [:div.bg-black {:style {:height "10vh"}}]]
+       {:style {:width "2em"}}]
       ;; TODO: svg高度限制不了的问题,外面的盒子高度限制不管用, 但是宽度是能flex的
       [:div.flex.flex-auto.justify-center.items-center.mt3.mb3
        {:style {:height "80vh"}
