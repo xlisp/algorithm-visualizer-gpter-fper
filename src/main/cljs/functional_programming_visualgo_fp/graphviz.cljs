@@ -217,6 +217,10 @@
          (render-list gid rlist dot-index)
          nil))}))
 
+(defn render-atom-update [atom-dot]
+  "TODO每次修改atom,就能自动记录下来修改的轨迹,然后播放出来 # 或者是修改atom,响应式的更新到graph图上面"
+  )
+
 (defn dot-circle-tmp
   [& {:keys [label datas]}]
   (dot-template label

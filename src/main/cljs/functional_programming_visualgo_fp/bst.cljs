@@ -7,6 +7,12 @@
             [functional-programming-visualgo-fp.multiplexing-css :as css]
             [functional-programming-visualgo-fp.scheme :as sch]))
 
+(def dot-stri "digraph  {node [style=\"filled\"];4 -> 3; 4 -> 8; 3 -> 1; 8 -> 7; 8 -> 16; 1 -> 2; 16 -> 10; 10 -> 9; 10 -> 14;")
+
+(comment
+  (reset! bst-tree-atom []))
+(defonce bst-tree-atom (reagent/atom []))
+
 ;; 参考D3.js的领域描述来设计你的公共函数库,你的TODO
 
 (defn select-all-path
@@ -97,12 +103,37 @@
   )
 (defn tree-search
   "插入的反函数就是搜索,搜索的反函数就是插入: 多分支的递归函数的脚手架"
-  [tree x]
-  (prn tree "这里打印出来的是搜索路径高亮TODO:" (s-key tree))
-  (cond (empty? tree) tree
-	    (= x (s-key tree)) tree
-	    (< x (s-key tree)) (tree-search (left tree) x)
-        :else (tree-search (right tree) x)))
+  [tree x op-fn]
+  (do
+    (op-fn (s-key tree))
+    ;; (prn tree "这里打印出来的是搜索路径高亮TODO:" (s-key tree))
+    (cond (empty? tree) tree
+	      (= x (s-key tree)) tree
+	      (< x (s-key tree)) (tree-search (left tree) x op-fn)
+          :else (tree-search (right tree) x op-fn))))
+
+(defn tree-search-visual [value]
+  (let [bst-tree
+        (->
+          (tree-insert (list) 4) ;; ROOT节点的值
+          ;; 左边的树杈
+          (tree-insert 3)
+          (tree-insert 1)
+          (tree-insert 2)
+          ;; 右边的树杈
+          (tree-insert 8)
+          (tree-insert 7)
+          (tree-insert 16)
+          (tree-insert 10)
+          (tree-insert 9)
+          (tree-insert 14))]
+    (do
+      (tree-search bst-tree value
+        (fn [s-key]
+          (swap! bst-tree-atom conj
+            (str dot-stri s-key " [fillcolor=\"yellow\"]" "}"))))
+      (graphviz/render-list "#graph" @bst-tree-atom (atom 0)))))
+
 
 (defn page []
   (reagent/with-let [left-menu (reagent/atom "close")]
@@ -116,8 +147,11 @@
         [:div.flex.flex-column
          [:div.pa2 {:class (<class css/hover-menu-style)
                     :on-click #(graphviz/d3-graphviz "#graph"
-                                 "digraph  {4 -> 3; 4 -> 8; 3 -> 1; 8 -> 7; 8 -> 16; 1 -> 2; 16 -> 10; 10 -> 9; 10 -> 14}")} "创建"]
-         [:div.pa2 {:class (<class css/hover-menu-style) } "搜索"]
+                                 "digraph  {node [style=\"filled\"]; 4 -> 3; 4 -> 8; 3 -> 1; 8 -> 7; 8 -> 16; 1 -> 2; 16 -> 10; 10 -> 9; 10 -> 14}")} "创建"]
+         [:div.pa2 {:class (<class css/hover-menu-style)
+                    :on-click (fn []
+                                (reset! bst-tree-atom [])
+                                (tree-search-visual 9))} "搜索"]
          [:div.pa2 {:class (<class css/hover-menu-style) } "插入"]
          [:div.pa2 {:class (<class css/hover-menu-style) } "移除"]
          [:div.pa2 {:class (<class css/hover-menu-style) } "中序遍历"]
