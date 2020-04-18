@@ -7,6 +7,9 @@
 
 ![](https://raw.githubusercontent.com/chanshunli/functional-programming-visualgo/master/demo_fp_visualgo.gif)
 
+### 二叉搜索树
+![](https://raw.githubusercontent.com/chanshunli/functional-programming-visualgo/master/demo_bst_search.gif)
+
 ### 使用说明[TODO]:
 
 ![](https://raw.githubusercontent.com/chanshunli/functional-programming-visualgo/master/usage.png)
