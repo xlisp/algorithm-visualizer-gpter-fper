@@ -137,7 +137,9 @@
 
 
 (defn page []
-  (reagent/with-let [left-menu (reagent/atom "close")]
+  (reagent/with-let [left-menu (reagent/atom "close")
+                     left-menu-item (reagent/atom "create")
+                     search-value (reagent/atom 9)]
     [:div
      [panel/header {:title "二叉搜索树"}]
      [:div.absolute.bottom-0.mb5
@@ -148,8 +150,9 @@
         [:div.bg-yellow {:style {:height "15em"}
                          :on-click #(if (= @left-menu "close")
                                       (reset! left-menu "open")
-                                      (reset! left-menu "close"))}
-         [:div.h-100.bg-red.flex
+                                      (do (reset! left-menu "close")
+                                          (reset! left-menu-item "create")))}
+         [:div.h-100.flex
           [:div.flex.justify-center.align-center
            [:img {:style {:height "15em"}
                   :src
@@ -159,26 +162,58 @@
        (if (= @left-menu "open")
          [:div.flex.flex-column.bg-yellow.ml1
           [:div.pa2 {:class (<class css/hover-menu-style)
-                     :on-click #(graphviz/d3-graphviz "#graph"
-                                  "digraph  {node [style=\"filled\"]; 4 -> 3; 4 -> 8; 3 -> 1; 8 -> 7; 8 -> 16; 1 -> 2; 16 -> 10; 10 -> 9; 10 -> 14}")} "创建"]
+                     :on-click
+                     #(do
+                        (reset! left-menu-item "create")
+                        (graphviz/d3-graphviz "#graph"
+                          "digraph  {node [style=\"filled\"]; 4 -> 3; 4 -> 8; 3 -> 1; 8 -> 7; 8 -> 16; 1 -> 2; 16 -> 10; 10 -> 9; 10 -> 14}"))} "创建"]
           [:div.pa2 {:class (<class css/hover-menu-style)
-                     :on-click (fn []
-                                 (reset! bst-tree-atom [])
-                                 (tree-search-visual 9))} "搜索"]
-          [:div.pa2 {:class (<class css/hover-menu-style) } "插入"]
-          [:div.pa2 {:class (<class css/hover-menu-style) } "移除"]
-          [:div.pa2 {:class (<class css/hover-menu-style) } "中序遍历"]
-          [:div.pa2 {:class (<class css/hover-menu-style) } "前序遍历"]
-          [:div.pa2 {:class (<class css/hover-menu-style) } "后序遍历"]]
+                     :on-click #(reset! left-menu-item "search")} "搜索"]
+          [:div.pa2 {:class (<class css/hover-menu-style)
+                     :on-click #(reset! left-menu-item "insert")} "插入"]
+          [:div.pa2 {:class (<class css/hover-menu-style)
+                     :on-click #(reset! left-menu-item "remove")} "移除"]
+          [:div.pa2 {:class (<class css/hover-menu-style)
+                     :on-click #(reset! left-menu-item "middle-search")} "中序遍历"]
+          [:div.pa2 {:class (<class css/hover-menu-style)
+                     :on-click #(reset! left-menu-item "before-search")} "前序遍历"]
+          [:div.pa2 {:class (<class css/hover-menu-style)
+                     :on-click #(reset! left-menu-item "after-search")} "后序遍历"]]
          [:div])
-       #_[:div.flex.flex-column.bg-yellow.ml1
-          [:div.pa2 {:class (<class css/hover-menu-style) } "创建"]
-          [:div.pa2 {:class (<class css/hover-menu-style) } "搜索"]
-          [:div.pa2 {:class (<class css/hover-menu-style) } "插入"]
-          [:div.pa2 {:class (<class css/hover-menu-style) } "移除"]
-          [:div.pa2 {:class (<class css/hover-menu-style) } "中序遍历"]
-          [:div.pa2 {:class (<class css/hover-menu-style) } "前序遍历"]
-          [:div.pa2 {:class (<class css/hover-menu-style) } "后序遍历"]]]]
+       ;;
+       (if (= @left-menu "open")
+         [:div.flex.flex-column.ml1
+          (case @left-menu-item
+            "create" [:div]
+            "search" [:div.flex.flex-row {:style {:margin-top "2.6em"}}
+                      [:div.bg-yellow.pa1.f6
+                       {:class (<class css/hover-menu-style)
+                        :style {:width "4em"}
+                        :on-click
+                        (fn []
+                          (reset! bst-tree-atom [])
+                          (tree-search-visual 16))} "最大值"]
+                      [:div.bg-yellow.ml1.pa1.f6
+                       {:class (<class css/hover-menu-style)
+                        :style {:width "4em"}
+                        :on-click (fn []
+                                    (reset! bst-tree-atom [])
+                                    ;; TODO: 需要flatten然后排序一下
+                                    (tree-search-visual 1))} "最小值"]
+                      [:div.ml1
+                       [:input {:value @search-value
+                                :on-change #(reset! search-value (.. % -target -value))
+                                :style {:width "5em"}
+                                :placeholder "查找值"
+                                :type "number"}]]
+                      [:div.bg-yellow.ml1.pa1.f6
+                       {:on-click (fn []
+                                    (reset! bst-tree-atom [])
+                                    (tree-search-visual @search-value))
+                        :class (<class css/hover-menu-style)
+                        :style {:width "4em"}} "查找值"]]
+            [:div])]
+         [:div])]]
      [:div.flex.flex-row {:style {:height "90vh"}}
       [:div.flex.flex-column.h-100.bg-black
        {:style {:width "2em"}}]
