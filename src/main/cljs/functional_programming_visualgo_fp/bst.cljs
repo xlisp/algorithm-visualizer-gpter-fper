@@ -10,8 +10,11 @@
 (def dot-stri "digraph  {node [style=\"filled\"];4 -> 3; 4 -> 8; 3 -> 1; 8 -> 7; 8 -> 16; 1 -> 2; 16 -> 10; 10 -> 9; 10 -> 14;")
 
 (comment
+  ;; 给二叉树搜索去用的atom list
   (reset! bst-tree-atom []))
 (defonce bst-tree-atom (reagent/atom []))
+
+(defonce bst-tree-dots (reagent/atom []))
 
 ;; 参考D3.js的领域描述来设计你的公共函数库,你的TODO
 
@@ -64,36 +67,34 @@
   ;; 根据中序遍历的结果来生成一颗目标的bst树
   (def bst-tree
     (->
-      (tree-insert (list) 4) ;; ROOT节点的值
+      (tree-insert (list) 4 tree-insert-cb) ;; ROOT节点的值
       ;; 左边的树杈
-      (tree-insert 3)
-      (tree-insert 1)
-      (tree-insert 2)
+      (tree-insert 3 tree-insert-cb)
+      (tree-insert 1 tree-insert-cb)
+      (tree-insert 2 tree-insert-cb)
       ;; 右边的树杈
-      (tree-insert 8)
-      (tree-insert 7)
-      (tree-insert 16)
-      (tree-insert 10)
-      (tree-insert 9)
-      (tree-insert 14)))
+      (tree-insert 8 tree-insert-cb)
+      (tree-insert 7 tree-insert-cb)
+      (tree-insert 16 tree-insert-cb)
+      (tree-insert 10 tree-insert-cb)
+      (tree-insert 9 tree-insert-cb)
+      (tree-insert 14 tree-insert-cb)))
   ;; => (((() 1 (() 2 ())) 3 ()) 4 ((() 7 ()) 8 (((() 9 ()) 10 (() 14 ())) 16 ())))
   )
 (defn tree-insert
   "二叉树的插入"
-  [tree x]
-  (cond (empty? tree) (list '() x '())
-        (< x (s-key tree))
-        (doto
-	        (make-tree (tree-insert (left tree) x)
-		      (s-key tree)
-		      (right tree))
-          (prn x "左边"))
-        (> x (s-key tree))
-        (doto
-	        (make-tree (left tree)
-		      (s-key tree)
-		      (tree-insert (right tree) x))
-          (prn x "右边"))))
+  [tree x op-fn]
+  (do
+    (op-fn (s-key tree) x)
+    (cond (empty? tree) (list '() x '())
+          (< x (s-key tree))
+          (make-tree (tree-insert (left tree) x op-fn)
+		    (s-key tree)
+		    (right tree))
+          (> x (s-key tree))
+          (make-tree (left tree)
+		    (s-key tree)
+		    (tree-insert (right tree) x op-fn)))))
 
 (comment
   ;; 树的搜索: 某个节点下面的所有树
@@ -113,21 +114,38 @@
 	      (< x (s-key tree)) (tree-search (left tree) x op-fn)
           :else (tree-search (right tree) x op-fn))))
 
-(defn tree-search-visual [value]
-  (let [bst-tree
+(defn tree-data-init []
+  (let [_ (reset! bst-tree-dots [])
+        tree-insert-cb
+        (fn [skey x]
+          (swap! bst-tree-dots conj [skey x]))
+        bst-tree
         (->
-          (tree-insert (list) 4) ;; ROOT节点的值
+          (tree-insert (list) 4 tree-insert-cb) ;; ROOT节点的值
           ;; 左边的树杈
-          (tree-insert 3)
-          (tree-insert 1)
-          (tree-insert 2)
+          (tree-insert 3 tree-insert-cb)
+          (tree-insert 1 tree-insert-cb)
+          (tree-insert 2 tree-insert-cb)
           ;; 右边的树杈
-          (tree-insert 8)
-          (tree-insert 7)
-          (tree-insert 16)
-          (tree-insert 10)
-          (tree-insert 9)
-          (tree-insert 14))]
+          (tree-insert 8 tree-insert-cb)
+          (tree-insert 7 tree-insert-cb)
+          (tree-insert 16 tree-insert-cb)
+          (tree-insert 10 tree-insert-cb)
+          (tree-insert 9 tree-insert-cb)
+          (tree-insert 14 tree-insert-cb))]
+    (do
+      (let [datas (rest @bst-tree-dots)
+            dot-results (keep-indexed
+                          (fn [idx [a b]]
+                            (if (nil? a)
+                              (nth datas (dec idx))
+                              nil))
+                          datas)]
+        (reset! bst-tree-dots dot-results))
+      [bst-tree @bst-tree-dots])))
+
+(defn tree-search-visual [value]
+  (let [bst-tree (first (tree-data-init))]
     (do
       (tree-search bst-tree value
         (fn [s-key]
@@ -162,13 +180,22 @@
        (if (= @left-menu "open")
          [:div.flex.flex-column.bg-yellow.ml1
           [:div.pa2 {:class (<class css/hover-menu-style)
-                     :on-click #(reset! left-menu-item "graphviz")} "GraphViz图"]
+                     :on-click #(reset! left-menu-item "graphviz")}
+           ;; TODO: 这个后端来保存这个GraphViz图
+           "GraphViz图"]
           [:div.pa2 {:class (<class css/hover-menu-style)
                      :on-click
                      #(do
                         (reset! left-menu-item "create")
+                        (tree-data-init)
                         (graphviz/d3-graphviz "#graph"
-                          "digraph  {node [style=\"filled\"]; 4 -> 3; 4 -> 8; 3 -> 1; 8 -> 7; 8 -> 16; 1 -> 2; 16 -> 10; 10 -> 9; 10 -> 14}"))} "创建"]
+                          (str
+                            "digraph  {node [style=\"filled\"]; "
+                            (clojure.string/join
+                              ";"
+                              (map (fn [item]
+                                     (str (first item) " -> " (last item))) @bst-tree-dots))
+                            "}")))} "创建"]
           [:div.pa2 {:class (<class css/hover-menu-style)
                      :on-click #(reset! left-menu-item "search")} "搜索"]
           [:div.pa2 {:class (<class css/hover-menu-style)
