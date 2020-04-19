@@ -97,6 +97,20 @@
 		    (tree-insert (right tree) x op-fn)))))
 
 (comment
+  (rand-not-in-bst-tree-val bst-tree))
+(defn rand-not-in-bst-tree-val
+  "生成一个不在bst-tree上的值"
+  [bst-tree]
+  (let [ouput-int (atom 1)
+        bst-tree-set (set (flatten bst-tree) )]
+    (while (bst-tree-set
+             (let [rand-num (rand-int 100)]
+               (reset! ouput-int rand-num)
+               rand-num))
+      (prn "find not in bst-tree..."))
+    @ouput-int))
+
+(comment
   ;; 树的搜索: 某个节点下面的所有树
   (tree-search bst-tree 9)
   ;; => (() 14 ())
@@ -114,12 +128,15 @@
 	      (< x (s-key tree)) (tree-search (left tree) x op-fn)
           :else (tree-search (right tree) x op-fn))))
 
-(defn tree-data-init []
+(defn tree-data-init [is-reset-dot op-fn]
   (let [_ (reset! bst-tree-dots [])
+        #_(if is-reset-dot
+            (reset! bst-tree-dots [])
+            nil)
         tree-insert-cb
         (fn [skey x]
           (swap! bst-tree-dots conj [skey x]))
-        bst-tree
+        bst-tree-origin
         (->
           (tree-insert (list) 4 tree-insert-cb) ;; ROOT节点的值
           ;; 左边的树杈
@@ -132,7 +149,8 @@
           (tree-insert 16 tree-insert-cb)
           (tree-insert 10 tree-insert-cb)
           (tree-insert 9 tree-insert-cb)
-          (tree-insert 14 tree-insert-cb))]
+          (tree-insert 14 tree-insert-cb))
+        bst-tree (op-fn bst-tree-origin tree-insert-cb)]
     (do
       (let [datas (rest @bst-tree-dots)
             dot-results (keep-indexed
@@ -145,7 +163,7 @@
       [bst-tree @bst-tree-dots])))
 
 (defn tree-search-visual [value]
-  (let [bst-tree (first (tree-data-init))]
+  (let [bst-tree (first (tree-data-init true identity))]
     (do
       (tree-search bst-tree value
         (fn [s-key]
@@ -153,6 +171,30 @@
             (str dot-stri s-key " [fillcolor=\"yellow\"]" "}"))))
       (graphviz/render-list "#graph" @bst-tree-atom (atom 0)))))
 
+(defn show-bst-tree-dots []
+  (graphviz/d3-graphviz "#graph"
+    (str
+      "digraph  {node [style=\"filled\"]; "
+      (clojure.string/join
+        ";"
+        (map (fn [item]
+               (str (first item) " -> " (last item))) @bst-tree-dots)) "}")))
+
+(defn create-bst-visual []
+  (tree-data-init true identity)
+  (show-bst-tree-dots))
+
+(comment
+  (insert-bst-visual))
+(defn insert-bst-visual []
+  (tree-data-init
+    false
+    (fn [bst-tree-origin tree-insert-cb]
+      (let [num (rand-not-in-bst-tree-val bst-tree-origin)]
+        (prn "插入值:" num ", s-key: " (s-key bst-tree-origin))
+        (tree-insert bst-tree-origin num tree-insert-cb)
+        (tree-insert-cb (s-key bst-tree-origin) num))))
+  (show-bst-tree-dots))
 
 (defn page []
   (reagent/with-let [left-menu (reagent/atom "close")
@@ -187,19 +229,15 @@
                      :on-click
                      #(do
                         (reset! left-menu-item "create")
-                        (tree-data-init)
-                        (graphviz/d3-graphviz "#graph"
-                          (str
-                            "digraph  {node [style=\"filled\"]; "
-                            (clojure.string/join
-                              ";"
-                              (map (fn [item]
-                                     (str (first item) " -> " (last item))) @bst-tree-dots))
-                            "}")))} "创建"]
+                        (create-bst-visual))} "创建"]
           [:div.pa2 {:class (<class css/hover-menu-style)
                      :on-click #(reset! left-menu-item "search")} "搜索"]
           [:div.pa2 {:class (<class css/hover-menu-style)
-                     :on-click #(reset! left-menu-item "insert")} "插入"]
+                     :on-click #(do
+                                  (reset! left-menu-item "insert")
+                                  (create-bst-visual)
+                                  ;; TODO: 没办法记录连续插入,还有标记新插入的颜色
+                                  (insert-bst-visual))} "插入"]
           [:div.pa2 {:class (<class css/hover-menu-style)
                      :on-click #(reset! left-menu-item "remove")} "移除"]
           [:div.pa2 {:class (<class css/hover-menu-style) ;; TODO: 包含前序遍历,还有后序遍历
