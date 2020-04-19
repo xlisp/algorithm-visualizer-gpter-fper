@@ -3,7 +3,7 @@
             [reagent.core :as reagent]
             [functional-programming-visualgo-fp.graphviz :as graphviz]
             [functional-programming-visualgo-fp.panel :as panel]
-            [herb.core :refer [<class]]
+            [herb.core :refer [<class join]]
             [functional-programming-visualgo-fp.multiplexing-css :as css]
             [functional-programming-visualgo-fp.scheme :as sch]))
 
@@ -162,6 +162,8 @@
        (if (= @left-menu "open")
          [:div.flex.flex-column.bg-yellow.ml1
           [:div.pa2 {:class (<class css/hover-menu-style)
+                     :on-click #(reset! left-menu-item "graphviz")} "GraphViz图"]
+          [:div.pa2 {:class (<class css/hover-menu-style)
                      :on-click
                      #(do
                         (reset! left-menu-item "create")
@@ -173,19 +175,17 @@
                      :on-click #(reset! left-menu-item "insert")} "插入"]
           [:div.pa2 {:class (<class css/hover-menu-style)
                      :on-click #(reset! left-menu-item "remove")} "移除"]
-          [:div.pa2 {:class (<class css/hover-menu-style)
+          [:div.pa2 {:class (<class css/hover-menu-style) ;; TODO: 包含前序遍历,还有后序遍历
                      :on-click #(reset! left-menu-item "middle-search")} "中序遍历"]
           [:div.pa2 {:class (<class css/hover-menu-style)
-                     :on-click #(reset! left-menu-item "before-search")} "前序遍历"]
-          [:div.pa2 {:class (<class css/hover-menu-style)
-                     :on-click #(reset! left-menu-item "after-search")} "后序遍历"]]
+                     :on-click #(reset! left-menu-item "usage-example")} "使用示例"]]
          [:div])
        ;;
        (if (= @left-menu "open")
          [:div.flex.flex-column.ml1
           (case @left-menu-item
             "create" [:div]
-            "search" [:div.flex.flex-row {:style {:margin-top "2.6em"}}
+            "search" [:div.flex.flex-row {:style {:margin-top "4.5em"}}
                       [:div.bg-yellow.pa1.f6
                        {:class (<class css/hover-menu-style)
                         :style {:width "4em"}
