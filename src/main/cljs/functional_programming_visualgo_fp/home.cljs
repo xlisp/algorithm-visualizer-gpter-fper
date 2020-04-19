@@ -43,7 +43,9 @@
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "链表 TODO" :logo "/img/bst-logo.svg"] ]
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "哈希表 TODO" :logo "/img/bst-logo.svg"] ]]
     [:div.flex.flex-row.mt3
-     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "二叉堆 TODO" :logo "/img/bst-logo.svg"] ]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
+                         :on-click #(router/switch-router! "/heap")}
+      [menu-item :title "二叉堆" :logo "/img/bst-logo.svg"] ]
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
                          :on-click #(router/switch-router! "/bst")}
       [menu-item :title "二叉搜索树" :logo "/img/bst-logo.svg"]]

@@ -9,6 +9,7 @@
             [functional-programming-visualgo-fp.events]
             [functional-programming-visualgo-fp.home :as home]
             [functional-programming-visualgo-fp.bst :as bst]
+            [functional-programming-visualgo-fp.heap :as heap]
             [functional-programming-visualgo-fp.router :as router]
             [functional-programming-visualgo-fp.base.math1 :as base-math1])
   (:import goog.History
@@ -17,6 +18,7 @@
 (def pages
   {:home #'home/page
    :bst #'bst/page
+   :heap #'heap/page
    :base-math1 #'base-math1/page})
 
 (defn page []
