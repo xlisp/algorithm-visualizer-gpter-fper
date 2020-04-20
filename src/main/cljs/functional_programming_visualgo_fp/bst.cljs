@@ -200,95 +200,83 @@
   (reagent/with-let [left-menu (reagent/atom "close")
                      left-menu-item (reagent/atom "create")
                      search-value (reagent/atom 9)]
-    [:div
-     [panel/header {:title "二叉搜索树"}]
-     [:div.absolute.bottom-0.mb5
-      ;; 用绝对定位来漂浮一个菜单或者弹窗: 左边菜单栏
-      {:style {:height "15em"} }
-      [:div.flex.flex-row
-       [:div {:style {:width "2em"}}
-        [:div.bg-yellow {:style {:height "15em"}
-                         :on-click #(if (= @left-menu "close")
-                                      (reset! left-menu "open")
-                                      (do (reset! left-menu "close")
-                                          (reset! left-menu-item "create")))}
-         [:div.h-100.flex
-          [:div.flex.justify-center.align-center
-           [:img {:style {:height "15em"}
-                  :src
-                  (if (= @left-menu "close")
-                    "/img/openRightMini.svg"
-                    "/img/openLeftMini.svg")}]]]]]
-       (if (= @left-menu "open")
-         [:div.flex.flex-column.bg-yellow.ml1
-          [:div.pa2 {:class (<class css/hover-menu-style)
-                     :on-click #(reset! left-menu-item "graphviz")}
-           ;; TODO: 这个后端来保存这个GraphViz图
-           "GraphViz图"]
-          [:div.pa2 {:class (<class css/hover-menu-style)
-                     :on-click
-                     #(do
-                        (reset! left-menu-item "create")
-                        (create-bst-visual))} "创建"]
-          [:div.pa2 {:class (<class css/hover-menu-style)
-                     :on-click #(reset! left-menu-item "search")} "搜索"]
-          [:div.pa2 {:class (<class css/hover-menu-style)
-                     :on-click #(do
-                                  (reset! left-menu-item "insert")
-                                  (create-bst-visual)
-                                  ;; TODO: 没办法记录连续插入,还有标记新插入的颜色
-                                  (insert-bst-visual))} "插入"]
-          [:div.pa2 {:class (<class css/hover-menu-style)
-                     :on-click #(reset! left-menu-item "remove")} "移除"]
-          [:div.pa2 {:class (<class css/hover-menu-style) ;; TODO: 包含前序遍历,还有后序遍历
-                     :on-click #(reset! left-menu-item "middle-search")} "中序遍历"]
-          [:div.pa2 {:class (<class css/hover-menu-style)
-                     :on-click #(reset! left-menu-item "usage-example")} "使用示例"]]
-         [:div])
-       ;;
-       (if (= @left-menu "open")
-         [:div.flex.flex-column.ml1
-          (case @left-menu-item
-            "create" [:div]
-            "search" [:div.flex.flex-row {:style {:margin-top "4.5em"}}
-                      [:div.bg-yellow.pa1.f6
-                       {:class (<class css/hover-menu-style)
-                        :style {:width "4em"}
-                        :on-click
-                        (fn []
-                          (reset! bst-tree-atom [])
-                          (tree-search-visual 16))} "最大值"]
-                      [:div.bg-yellow.ml1.pa1.f6
-                       {:class (<class css/hover-menu-style)
-                        :style {:width "4em"}
-                        :on-click (fn []
-                                    (reset! bst-tree-atom [])
-                                    ;; TODO: 需要flatten然后排序一下
-                                    (tree-search-visual 1))} "最小值"]
-                      [:div.ml1
-                       [:input {:value @search-value
-                                :on-change #(reset! search-value (.. % -target -value))
-                                :style {:width "5em"}
-                                :placeholder "查找值"
-                                :type "number"}]]
-                      [:div.bg-yellow.ml1.pa1.f6
-                       {:on-click (fn []
-                                    (reset! bst-tree-atom [])
-                                    (tree-search-visual @search-value))
-                        :class (<class css/hover-menu-style)
-                        :style {:width "4em"}} "查找值"]]
-            [:div])]
-         [:div])]]
-     [:div.flex.flex-row {:style {:height "90vh"}}
-      [:div.flex.flex-column.h-100.bg-black
-       {:style {:width "2em"}}]
-      ;; TODO: svg高度限制不了的问题,外面的盒子高度限制不管用, 但是宽度是能flex的
-      [:div.flex.flex-auto.justify-center.items-center.mt3.mb3
-       {:style {:height "80vh"}
-        :id "graph"}]
-      ;; 右边菜单栏
-      [:div.bg-black {:style {:width "2em"}}]]
-     ;; 底部菜单栏
-     [:div.absolute.bottom-0.flex.flex-row.w-100.bg-black
-      {:style {:height "2em"}}
-      [:div]]]))
+    (let [left-menu-datas
+          [{:button-name "GraphViz图" :click-fn #(reset! left-menu-item "graphviz")}
+           {:button-name "创建" :click-fn #(do (reset! left-menu-item "create") (create-bst-visual))}
+           {:button-name "搜索" :click-fn #(reset! left-menu-item "search")}
+           {:button-name "插入" :click-fn #(do (reset! left-menu-item "insert") (create-bst-visual) (insert-bst-visual))}
+           {:button-name "移除" :click-fn #(reset! left-menu-item "remove")}
+           {:button-name "中序遍历" :click-fn #(reset! left-menu-item "middle-search")}
+           {:button-name "使用示例" :click-fn #(reset! left-menu-item "usage-example")}]]
+      [:div
+       [panel/header {:title "二叉搜索树"}]
+       [:div.absolute.bottom-0.mb5
+        ;; 用绝对定位来漂浮一个菜单或者弹窗: 左边菜单栏
+        {:style {:height "15em"} }
+        [:div.flex.flex-row
+         [:div {:style {:width "2em"}}
+          [:div.bg-yellow {:style {:height "15em"}
+                           :on-click #(if (= @left-menu "close")
+                                        (reset! left-menu "open")
+                                        (do (reset! left-menu "close")
+                                            (reset! left-menu-item "create")))}
+           [:div.h-100.flex
+            [:div.flex.justify-center.align-center
+             [:img {:style {:height "15em"}
+                    :src
+                    (if (= @left-menu "close")
+                      "/img/openRightMini.svg"
+                      "/img/openLeftMini.svg")}]]]]]
+         (if (= @left-menu "open")
+           [:div.flex.flex-column.bg-yellow.ml1
+            (for [{:keys [button-name click-fn]} left-menu-datas]
+              [:div.pa2 {:class (<class css/hover-menu-style)
+                         :on-click click-fn} button-name])]
+           [:div])
+         ;;
+         (if (= @left-menu "open")
+           [:div.flex.flex-column.ml1
+            (case @left-menu-item
+              "create" [:div]
+              "search" [:div.flex.flex-row {:style {:margin-top "4.5em"}}
+                        [:div.bg-yellow.pa1.f6
+                         {:class (<class css/hover-menu-style)
+                          :style {:width "4em"}
+                          :on-click
+                          (fn []
+                            (reset! bst-tree-atom [])
+                            (tree-search-visual 16))} "最大值"]
+                        [:div.bg-yellow.ml1.pa1.f6
+                         {:class (<class css/hover-menu-style)
+                          :style {:width "4em"}
+                          :on-click (fn []
+                                      (reset! bst-tree-atom [])
+                                      ;; TODO: 需要flatten然后排序一下
+                                      (tree-search-visual 1))} "最小值"]
+                        [:div.ml1
+                         [:input {:value @search-value
+                                  :on-change #(reset! search-value (.. % -target -value))
+                                  :style {:width "5em"}
+                                  :placeholder "查找值"
+                                  :type "number"}]]
+                        [:div.bg-yellow.ml1.pa1.f6
+                         {:on-click (fn []
+                                      (reset! bst-tree-atom [])
+                                      (tree-search-visual @search-value))
+                          :class (<class css/hover-menu-style)
+                          :style {:width "4em"}} "查找值"]]
+              [:div])]
+           [:div])]]
+       [:div.flex.flex-row {:style {:height "90vh"}}
+        [:div.flex.flex-column.h-100.bg-black
+         {:style {:width "2em"}}]
+        ;; TODO: svg高度限制不了的问题,外面的盒子高度限制不管用, 但是宽度是能flex的
+        [:div.flex.flex-auto.justify-center.items-center.mt3.mb3
+         {:style {:height "80vh"}
+          :id "graph"}]
+        ;; 右边菜单栏
+        [:div.bg-black {:style {:width "2em"}}]]
+       ;; 底部菜单栏
+       [:div.absolute.bottom-0.flex.flex-row.w-100.bg-black
+        {:style {:height "2em"}}
+        [:div]]])))
