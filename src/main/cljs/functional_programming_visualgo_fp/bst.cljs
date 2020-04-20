@@ -105,7 +105,7 @@
   (let [ouput-int (atom 1)
         bst-tree-set (set (flatten bst-tree) )]
     (while (bst-tree-set
-             (let [rand-num (rand-int 100)]
+             (let [rand-num (rand-int 20)]
                (reset! ouput-int rand-num)
                rand-num))
       (prn "find not in bst-tree..."))
@@ -202,8 +202,8 @@
     (let [left-menu-datas
           [{:button-name "GraphViz图" :menu-item-name "graphviz" :click-fn nil}
            {:button-name "创建" :menu-item-name "create" :click-fn #(do (create-bst-visual))}
+           {:button-name "插入" :menu-item-name "insert" :click-fn #(do (insert-bst-visual))}
            {:button-name "搜索" :menu-item-name "search" :click-fn nil}
-           {:button-name "插入" :menu-item-name "insert" :click-fn #(do  (create-bst-visual) (insert-bst-visual))}
            {:button-name "移除" :menu-item-name "remove" :click-fn nil}
            {:button-name "中序遍历" :menu-item-name "middle-search" :click-fn nil}
            {:button-name "使用示例" :menu-item-name "usage-example" :click-fn nil}]
