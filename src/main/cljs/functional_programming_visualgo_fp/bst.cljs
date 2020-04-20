@@ -207,7 +207,36 @@
            {:button-name "插入" :click-fn #(do (reset! left-menu-item "insert") (create-bst-visual) (insert-bst-visual))}
            {:button-name "移除" :click-fn #(reset! left-menu-item "remove")}
            {:button-name "中序遍历" :click-fn #(reset! left-menu-item "middle-search")}
-           {:button-name "使用示例" :click-fn #(reset! left-menu-item "usage-example")}]]
+           {:button-name "使用示例" :click-fn #(reset! left-menu-item "usage-example")}]
+          left-menu-item-datas
+          {"create" [:div]
+           "search" [:div.flex.flex-row {:style {:margin-top "4.5em"}}
+                     [:div.bg-yellow.pa1.f6
+                      {:class (<class css/hover-menu-style)
+                       :style {:width "4em"}
+                       :on-click
+                       (fn []
+                         (reset! bst-tree-atom [])
+                         (tree-search-visual 16))} "最大值"]
+                     [:div.bg-yellow.ml1.pa1.f6
+                      {:class (<class css/hover-menu-style)
+                       :style {:width "4em"}
+                       :on-click (fn []
+                                   (reset! bst-tree-atom [])
+                                   ;; TODO: 需要flatten然后排序一下
+                                   (tree-search-visual 1))} "最小值"]
+                     [:div.ml1
+                      [:input {:value @search-value
+                               :on-change #(reset! search-value (.. % -target -value))
+                               :style {:width "5em"}
+                               :placeholder "查找值"
+                               :type "number"}]]
+                     [:div.bg-yellow.ml1.pa1.f6
+                      {:on-click (fn []
+                                   (reset! bst-tree-atom [])
+                                   (tree-search-visual @search-value))
+                       :class (<class css/hover-menu-style)
+                       :style {:width "4em"}} "查找值"]]}]
       [:div
        [panel/header {:title "二叉搜索树"}]
        [:div.absolute.bottom-0.mb5
@@ -236,35 +265,8 @@
          ;;
          (if (= @left-menu "open")
            [:div.flex.flex-column.ml1
-            (case @left-menu-item
-              "create" [:div]
-              "search" [:div.flex.flex-row {:style {:margin-top "4.5em"}}
-                        [:div.bg-yellow.pa1.f6
-                         {:class (<class css/hover-menu-style)
-                          :style {:width "4em"}
-                          :on-click
-                          (fn []
-                            (reset! bst-tree-atom [])
-                            (tree-search-visual 16))} "最大值"]
-                        [:div.bg-yellow.ml1.pa1.f6
-                         {:class (<class css/hover-menu-style)
-                          :style {:width "4em"}
-                          :on-click (fn []
-                                      (reset! bst-tree-atom [])
-                                      ;; TODO: 需要flatten然后排序一下
-                                      (tree-search-visual 1))} "最小值"]
-                        [:div.ml1
-                         [:input {:value @search-value
-                                  :on-change #(reset! search-value (.. % -target -value))
-                                  :style {:width "5em"}
-                                  :placeholder "查找值"
-                                  :type "number"}]]
-                        [:div.bg-yellow.ml1.pa1.f6
-                         {:on-click (fn []
-                                      (reset! bst-tree-atom [])
-                                      (tree-search-visual @search-value))
-                          :class (<class css/hover-menu-style)
-                          :style {:width "4em"}} "查找值"]]
+            (if  ((set (keys left-menu-item-datas) ) @left-menu-item)
+              (left-menu-item-datas @left-menu-item)
               [:div])]
            [:div])]]
        [:div.flex.flex-row {:style {:height "90vh"}}
