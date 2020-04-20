@@ -5,7 +5,8 @@
             [herb.core :refer [<class join]]
             [functional-programming-visualgo-fp.multiplexing-css :as css]))
 
-(defn base-page [& {:keys [title]}]
+(defn base-page
+  [& {:keys [title left-menu-datas left-menu-item-datas]}]
   (let [left-menu (re-frame/subscribe [:left-menu-status])
         left-menu-item (re-frame/subscribe [:left-menu-item-status])]
     [:div
@@ -29,53 +30,19 @@
                     "/img/openLeftMini.svg")}]]]]]
        (if (= @left-menu "open")
          [:div.flex.flex-column.bg-yellow.ml1
-          [:div.pa2 {:class (<class css/hover-menu-style)
-                     :on-click #(re-frame/dispatch [:left-menu-item "graphviz"])}
-           ;; TODO: 这个后端来保存这个GraphViz图
-           "GraphViz图"]
-          [:div.pa2 {:class (<class css/hover-menu-style)
-                     :on-click
-                     #(do
-                        (re-frame/dispatch [:left-menu-item "create"]))} "创建"]
-          [:div.pa2 {:class (<class css/hover-menu-style)
-                     :on-click #(re-frame/dispatch [:left-menu-item "search"])} "搜索"]
-          [:div.pa2 {:class (<class css/hover-menu-style)
-                     :on-click #(do
-                                  (re-frame/dispatch [:left-menu-item "insert"]))} "插入"]
-          [:div.pa2 {:class (<class css/hover-menu-style)
-                     :on-click #(re-frame/dispatch [:left-menu-item "remove"])} "移除"]
-          [:div.pa2 {:class (<class css/hover-menu-style)
-                     :on-click #(re-frame/dispatch [:left-menu-item "middle-search"])} "中序遍历"]
-          [:div.pa2 {:class (<class css/hover-menu-style)
-                     :on-click #(re-frame/dispatch [:left-menu-item "usage-example"])} "使用示例"]]
+          (for [{:keys [button-name click-fn menu-item-name]} left-menu-datas]
+            [:div.pa2 {:class (<class css/hover-menu-style)
+                       :on-click (fn []
+                                   (re-frame/dispatch [:left-menu-item menu-item-name])
+                                   (if  (fn? click-fn)
+                                     (click-fn)))}
+             button-name])]
          [:div])
        ;;
        (if (= @left-menu "open")
          [:div.flex.flex-column.ml1
-          (case @left-menu-item
-            "create" [:div]
-            "search" [:div.flex.flex-row {:style {:margin-top "4.5em"}}
-                      [:div.bg-yellow.pa1.f6
-                       {:class (<class css/hover-menu-style)
-                        :style {:width "4em"}
-                        :on-click
-                        (fn []
-                          )} "最大值"]
-                      [:div.bg-yellow.ml1.pa1.f6
-                       {:class (<class css/hover-menu-style)
-                        :style {:width "4em"}
-                        :on-click (fn []
-                                    )} "最小值"]
-                      [:div.ml1
-                       [:input {:on-change #(prn (.. % -target -value))
-                                :style {:width "5em"}
-                                :placeholder "查找值"
-                                :type "number"}]]
-                      [:div.bg-yellow.ml1.pa1.f6
-                       {:on-click (fn []
-                                    )
-                        :class (<class css/hover-menu-style)
-                        :style {:width "4em"}} "查找值"]]
+          (if  ((set (keys left-menu-item-datas) ) @left-menu-item)
+            (left-menu-item-datas @left-menu-item)
             [:div])]
          [:div])]]
      [:div.flex.flex-row {:style {:height "90vh"}}

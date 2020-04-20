@@ -5,7 +5,8 @@
             [functional-programming-visualgo-fp.panel :as panel]
             [herb.core :refer [<class join]]
             [functional-programming-visualgo-fp.multiplexing-css :as css]
-            [functional-programming-visualgo-fp.scheme :as sch]))
+            [functional-programming-visualgo-fp.scheme :as sch]
+            [functional-programming-visualgo-fp.components :as comps]))
 
 (def dot-stri "digraph  {node [style=\"filled\"];4 -> 3; 4 -> 8; 3 -> 1; 8 -> 7; 8 -> 16; 1 -> 2; 16 -> 10; 10 -> 9; 10 -> 14;")
 
@@ -197,17 +198,15 @@
   (show-bst-tree-dots))
 
 (defn page []
-  (reagent/with-let [left-menu (reagent/atom "close")
-                     left-menu-item (reagent/atom "create")
-                     search-value (reagent/atom 9)]
+  (reagent/with-let [search-value (reagent/atom 9)]
     (let [left-menu-datas
-          [{:button-name "GraphViz图" :click-fn #(reset! left-menu-item "graphviz")}
-           {:button-name "创建" :click-fn #(do (reset! left-menu-item "create") (create-bst-visual))}
-           {:button-name "搜索" :click-fn #(reset! left-menu-item "search")}
-           {:button-name "插入" :click-fn #(do (reset! left-menu-item "insert") (create-bst-visual) (insert-bst-visual))}
-           {:button-name "移除" :click-fn #(reset! left-menu-item "remove")}
-           {:button-name "中序遍历" :click-fn #(reset! left-menu-item "middle-search")}
-           {:button-name "使用示例" :click-fn #(reset! left-menu-item "usage-example")}]
+          [{:button-name "GraphViz图" :menu-item-name "graphviz" :click-fn nil}
+           {:button-name "创建" :menu-item-name "create" :click-fn #(do (create-bst-visual))}
+           {:button-name "搜索" :menu-item-name "search" :click-fn nil}
+           {:button-name "插入" :menu-item-name "insert" :click-fn #(do  (create-bst-visual) (insert-bst-visual))}
+           {:button-name "移除" :menu-item-name "remove" :click-fn nil}
+           {:button-name "中序遍历" :menu-item-name "middle-search" :click-fn nil}
+           {:button-name "使用示例" :menu-item-name "usage-example" :click-fn nil}]
           left-menu-item-datas
           {"create" [:div]
            "search" [:div.flex.flex-row {:style {:margin-top "4.5em"}}
@@ -237,48 +236,7 @@
                                    (tree-search-visual @search-value))
                        :class (<class css/hover-menu-style)
                        :style {:width "4em"}} "查找值"]]}]
-      [:div
-       [panel/header {:title "二叉搜索树"}]
-       [:div.absolute.bottom-0.mb5
-        ;; 用绝对定位来漂浮一个菜单或者弹窗: 左边菜单栏
-        {:style {:height "15em"} }
-        [:div.flex.flex-row
-         [:div {:style {:width "2em"}}
-          [:div.bg-yellow {:style {:height "15em"}
-                           :on-click #(if (= @left-menu "close")
-                                        (reset! left-menu "open")
-                                        (do (reset! left-menu "close")
-                                            (reset! left-menu-item "create")))}
-           [:div.h-100.flex
-            [:div.flex.justify-center.align-center
-             [:img {:style {:height "15em"}
-                    :src
-                    (if (= @left-menu "close")
-                      "/img/openRightMini.svg"
-                      "/img/openLeftMini.svg")}]]]]]
-         (if (= @left-menu "open")
-           [:div.flex.flex-column.bg-yellow.ml1
-            (for [{:keys [button-name click-fn]} left-menu-datas]
-              [:div.pa2 {:class (<class css/hover-menu-style)
-                         :on-click click-fn} button-name])]
-           [:div])
-         ;;
-         (if (= @left-menu "open")
-           [:div.flex.flex-column.ml1
-            (if  ((set (keys left-menu-item-datas) ) @left-menu-item)
-              (left-menu-item-datas @left-menu-item)
-              [:div])]
-           [:div])]]
-       [:div.flex.flex-row {:style {:height "90vh"}}
-        [:div.flex.flex-column.h-100.bg-black
-         {:style {:width "2em"}}]
-        ;; TODO: svg高度限制不了的问题,外面的盒子高度限制不管用, 但是宽度是能flex的
-        [:div.flex.flex-auto.justify-center.items-center.mt3.mb3
-         {:style {:height "80vh"}
-          :id "graph"}]
-        ;; 右边菜单栏
-        [:div.bg-black {:style {:width "2em"}}]]
-       ;; 底部菜单栏
-       [:div.absolute.bottom-0.flex.flex-row.w-100.bg-black
-        {:style {:height "2em"}}
-        [:div]]])))
+      (comps/base-page
+        :title "二叉搜索树"
+        :left-menu-datas left-menu-datas
+        :left-menu-item-datas left-menu-item-datas))))
