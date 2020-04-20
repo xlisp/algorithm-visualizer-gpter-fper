@@ -3,7 +3,8 @@
             [reagent.core :as reagent]
             [functional-programming-visualgo-fp.graphviz :as graphviz]
             [functional-programming-visualgo-fp.panel :as panel]
-            [functional-programming-visualgo-fp.datas :as datas]))
+            [functional-programming-visualgo-fp.datas :as datas]
+            [functional-programming-visualgo-fp.components :as comps]))
 
 (defn math1 []
   (let [eg-data (map #(+ % (rand-int 10) ) (range 1 40))]
@@ -97,26 +98,14 @@
       (atom 0))))
 
 (defn page []
-  [:div
-   [panel/header {:title "函数式编程Hello Kid"}]
-   [:div.flex.flex-column.justify-center.items-center.mt5
-    {:id "graph"}]
-   [:div.flex.flex-row.pa3
-    [:div.flex.flex-auto]
-    [:div
-     [:button.f5.ba.bg-white
-      {:on-click math1
-       :style {:border-radius "1em"
-               :height "2em"
-               :color "gray"
-               :border "2px solid rgba(187, 187, 187, 1)"
-               :width "9em"}}
-      "可视化计算过程"]
-     [:button.f5.ba.bg-white.ml4
-      {:on-click #(js/alert "算法时间复杂度为O(n^3)")
-       :style {:border-radius "1em"
-               :height "2em"
-               :color "gray"
-               :border "2px solid rgba(187, 187, 187, 1)"
-               :width "9em"}}
-      "算法时间复杂度"]]]])
+  (let [left-menu-datas
+        [{:button-name "GraphViz图" :menu-item-name "graphviz" :click-fn nil}
+         {:button-name "可视化计算过程" :menu-item-name "visual-process" :click-fn math1}
+         {:button-name "算法时间复杂度" :menu-item-name "time-complexity" :click-fn  #(js/alert "算法时间复杂度为O(n^3)")}]
+        left-menu-item-datas
+        {"graphviz" [:div]
+         "visual-process" [:div]}]
+    (comps/base-page
+      :title "函数式编程Hello Kid"
+      :left-menu-datas left-menu-datas
+      :left-menu-item-datas left-menu-item-datas)))
