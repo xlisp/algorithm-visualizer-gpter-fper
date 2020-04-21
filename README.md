@@ -2,9 +2,11 @@
 
 - [函数式算法可视化 functional programming algorithm visualizer](#%E5%87%BD%E6%95%B0%E5%BC%8F%E7%AE%97%E6%B3%95%E5%8F%AF%E8%A7%86%E5%8C%96-functional-programming-algorithm-visualizer)
   - [算法可视化开发第一性原则](#%E7%AE%97%E6%B3%95%E5%8F%AF%E8%A7%86%E5%8C%96%E5%BC%80%E5%8F%91%E7%AC%AC%E4%B8%80%E6%80%A7%E5%8E%9F%E5%88%99)
+    - [递归方法的总结](#%E9%80%92%E5%BD%92%E6%96%B9%E6%B3%95%E7%9A%84%E6%80%BB%E7%BB%93)
   - [算法可视化导航](#%E7%AE%97%E6%B3%95%E5%8F%AF%E8%A7%86%E5%8C%96%E5%AF%BC%E8%88%AA)
   - [如何在数组中找到直角三角形的组合？](#%E5%A6%82%E4%BD%95%E5%9C%A8%E6%95%B0%E7%BB%84%E4%B8%AD%E6%89%BE%E5%88%B0%E7%9B%B4%E8%A7%92%E4%B8%89%E8%A7%92%E5%BD%A2%E7%9A%84%E7%BB%84%E5%90%88)
   - [二叉搜索树](#%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91)
+  - [SICP找零钱问题](#sicp%E6%89%BE%E9%9B%B6%E9%92%B1%E9%97%AE%E9%A2%98)
 
 ##  算法可视化开发第一性原则
 * 用二维的表格或者矩阵存储数据(低维度的基本结构), 展示为高维的图或者树形结构, 而不要去存储高维结构,然后去解析高维结构生成高维结构
@@ -17,6 +19,14 @@
 * 代数进去算法得到局部打印的数列: 用等差和等比数列来表示所有数据的规律, 离散数据的规律, 发现数列的规律找到通项公式 或者是递推公式
 * 数学归纳法思想(有名(不同的算法的名字)万物(所有软件)之始,无名(数学归纳证明法)万物之母): 递归版本是最容易的, 运用万能的数学归纳法来证明所有复杂的公式定理，就算你完全不知道一个算法的名字，知道需求输入输出的样子，都能用递归描述出来 => 然后是非递归版本,用栈实现
 
+### 递归方法的总结
+
+* 找到不可变的定点,即最基本的底维度的结构,衰减问题不可变的规律
+* 找到规律来缩小这个问题的搜索空间
+* 分段函数来cond求和结果
+* 尝试用代数穷举小的数字,来描述衰减前者和衰减后者的关系,如何消解问题: count_change（amount，n）, count_change（amount，n-1）, count_change(amount-衰减的钱,n) 抽取出来的因子的关系
+* 用递归脚手架来爆栈来尝试衰减你的目标变量
+
 ##  算法可视化导航
 
 ![](https://raw.githubusercontent.com/chanshunli/functional-programming-visualgo/master/website_preview.png)
@@ -27,3 +37,9 @@
 
 ##  二叉搜索树
 ![](https://raw.githubusercontent.com/chanshunli/functional-programming-visualgo/master/demo_bst_search.gif)
+
+##  SICP找零钱问题
+
+``` clojure
+;;()
+```
