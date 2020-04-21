@@ -8,6 +8,23 @@
             [functional-programming-visualgo-fp.scheme :as sch]
             [functional-programming-visualgo-fp.components :as comps]))
 
+
+(defn from-list [lst]
+  (sch/fold-left sch/insert '() lst))
+
+(defn hsort [t]
+  (if (sch/null? t) '() (cons (sch/find-min t) (hsort (sch/delete-min t)))))
+
+(defn heap-sort [lst]
+  (hsort (from-list lst)))
+
+(comment
+  (from-list '(16 14 10 8 7 9 3 2 4 1))
+  ;; => ((((((((() 1 16 ()) 1 14 ()) 1 10 ()) 1 8 ()) 2 7 (() 1 9 ())) 1 3 ()) 2 2 (() 1 4 ())) 1 1 ())
+  (heap-sort '(16 14 10 8 7 9 3 2 4 1))
+  ;; => (1 2 3 4 7 8 9 10 14 16)
+  )
+
 (defn page []
   (let [left-menu-datas
         [{:button-name "GraphViz图" :menu-item-name "graphviz" :click-fn nil}
