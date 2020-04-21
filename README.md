@@ -4,9 +4,9 @@
   - [算法可视化开发第一性原则](#%E7%AE%97%E6%B3%95%E5%8F%AF%E8%A7%86%E5%8C%96%E5%BC%80%E5%8F%91%E7%AC%AC%E4%B8%80%E6%80%A7%E5%8E%9F%E5%88%99)
     - [递归方法的总结](#%E9%80%92%E5%BD%92%E6%96%B9%E6%B3%95%E7%9A%84%E6%80%BB%E7%BB%93)
   - [算法可视化导航](#%E7%AE%97%E6%B3%95%E5%8F%AF%E8%A7%86%E5%8C%96%E5%AF%BC%E8%88%AA)
-  - [如何在数组中找到直角三角形的组合？](#%E5%A6%82%E4%BD%95%E5%9C%A8%E6%95%B0%E7%BB%84%E4%B8%AD%E6%89%BE%E5%88%B0%E7%9B%B4%E8%A7%92%E4%B8%89%E8%A7%92%E5%BD%A2%E7%9A%84%E7%BB%84%E5%90%88)
+  - [如何在数组中找到直角三角形的组合？(map-reduce-filter式解法)](#%E5%A6%82%E4%BD%95%E5%9C%A8%E6%95%B0%E7%BB%84%E4%B8%AD%E6%89%BE%E5%88%B0%E7%9B%B4%E8%A7%92%E4%B8%89%E8%A7%92%E5%BD%A2%E7%9A%84%E7%BB%84%E5%90%88map-reduce-filter%E5%BC%8F%E8%A7%A3%E6%B3%95)
   - [二叉搜索树](#%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91)
-  - [SICP找零钱问题](#sicp%E6%89%BE%E9%9B%B6%E9%92%B1%E9%97%AE%E9%A2%98)
+  - [SICP找零钱问题(递推式递归解法)](#sicp%E6%89%BE%E9%9B%B6%E9%92%B1%E9%97%AE%E9%A2%98%E9%80%92%E6%8E%A8%E5%BC%8F%E9%80%92%E5%BD%92%E8%A7%A3%E6%B3%95)
 
 ##  算法可视化开发第一性原则
 * 用二维的表格或者矩阵存储数据(低维度的基本结构), 展示为高维的图或者树形结构, 而不要去存储高维结构,然后去解析高维结构生成高维结构
@@ -31,15 +31,13 @@
 
 ![](https://raw.githubusercontent.com/chanshunli/functional-programming-visualgo/master/website_preview.png)
 
-##  如何在数组中找到直角三角形的组合？
+##  如何在数组中找到直角三角形的组合？(map-reduce-filter式解法)
 
 ![](https://raw.githubusercontent.com/chanshunli/functional-programming-visualgo/master/demo_fp_visualgo.gif)
 
 ##  二叉搜索树
 ![](https://raw.githubusercontent.com/chanshunli/functional-programming-visualgo/master/demo_bst_search.gif)
 
-##  SICP找零钱问题
+##  SICP找零钱问题(递推式递归解法)
 
-``` clojure
-;;()
-```
+![]()
