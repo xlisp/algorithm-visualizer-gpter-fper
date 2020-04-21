@@ -209,7 +209,7 @@
            {:button-name "使用示例" :menu-item-name "usage-example" :click-fn nil}]
           left-menu-item-datas
           {"create" [:div]
-           "search" [:div.flex.flex-row {:style {:margin-top "4.5em"}}
+           "search" [:div.flex.flex-row {:style {:margin-top "6.5em"}}
                      [:div.bg-yellow.pa1.f6
                       {:class (<class css/hover-menu-style)
                        :style {:width "4em"}
