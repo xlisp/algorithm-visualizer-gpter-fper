@@ -53,16 +53,6 @@
               :width "7em"}}
      "生成随机树"]]])
 
-(defn make-tree [left key right]
-  (list left key right))
-
-(defn s-key [tree]  (sch/cadr tree))
-
-(defn left [tree]
-  (if (empty? tree) '() (sch/car tree)))
-
-(defn right [tree]
-  (if (empty? tree) '() (sch/caddr tree)))
 
 (comment
   ;; 根据中序遍历的结果来生成一颗目标的bst树
@@ -86,16 +76,16 @@
   "二叉树的插入"
   [tree x op-fn]
   (do
-    (op-fn (s-key tree) x)
+    (op-fn (sch/s-key tree) x)
     (cond (empty? tree) (list '() x '())
-          (< x (s-key tree))
-          (make-tree (tree-insert (left tree) x op-fn)
-		    (s-key tree)
-		    (right tree))
-          (> x (s-key tree))
-          (make-tree (left tree)
-		    (s-key tree)
-		    (tree-insert (right tree) x op-fn)))))
+          (< x (sch/s-key tree))
+          (sch/make-tree (tree-insert (sch/left tree) x op-fn)
+		    (sch/s-key tree)
+		    (sch/right tree))
+          (> x (sch/s-key tree))
+          (sch/make-tree (sch/left tree)
+		    (sch/s-key tree)
+		    (tree-insert (sch/right tree) x op-fn)))))
 
 (comment
   (rand-not-in-bst-tree-val bst-tree))
@@ -122,12 +112,12 @@
   "插入的反函数就是搜索,搜索的反函数就是插入: 多分支的递归函数的脚手架"
   [tree x op-fn]
   (do
-    (op-fn (s-key tree))
-    ;; (prn tree "这里打印出来的是搜索路径高亮:" (s-key tree))
+    (op-fn (sch/s-key tree))
+    ;; (prn tree "这里打印出来的是搜索路径高亮:" (sch/s-key tree))
     (cond (empty? tree) tree
-	      (= x (s-key tree)) tree
-	      (< x (s-key tree)) (tree-search (left tree) x op-fn)
-          :else (tree-search (right tree) x op-fn))))
+	      (= x (sch/s-key tree)) tree
+	      (< x (sch/s-key tree)) (tree-search (sch/left tree) x op-fn)
+          :else (tree-search (sch/right tree) x op-fn))))
 
 (defn tree-data-init [is-reset-dot op-fn]
   (let [_ (reset! bst-tree-dots [])
@@ -192,9 +182,9 @@
     false
     (fn [bst-tree-origin tree-insert-cb]
       (let [num (rand-not-in-bst-tree-val bst-tree-origin)]
-        (prn "插入值:" num ", s-key: " (s-key bst-tree-origin))
+        (prn "插入值:" num ", sch/s-key: " (sch/s-key bst-tree-origin))
         (tree-insert bst-tree-origin num tree-insert-cb)
-        (tree-insert-cb (s-key bst-tree-origin) num))))
+        (tree-insert-cb (sch/s-key bst-tree-origin) num))))
   (show-bst-tree-dots))
 
 (defn page []
