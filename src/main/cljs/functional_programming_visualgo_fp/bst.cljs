@@ -10,6 +10,8 @@
 
 (def dot-stri "digraph  {node [style=\"filled\"];4 -> 3; 4 -> 8; 3 -> 1; 8 -> 7; 8 -> 16; 1 -> 2; 16 -> 10; 10 -> 9; 10 -> 14;")
 
+(def middle-search-list '(4 3 1 2 8 7 16 10 9 14))
+
 (comment
   ;; 给二叉树搜索去用的atom list
   (reset! bst-tree-atom []))
@@ -71,6 +73,10 @@
       (tree-insert 9 tree-insert-cb)
       (tree-insert 14 tree-insert-cb)))
   ;; => (((() 1 (() 2 ())) 3 ()) 4 ((() 7 ()) 8 (((() 9 ()) 10 (() 14 ())) 16 ())))
+
+  ;; 就像用reduce一样用fold
+  (sch/fold-left tree-insert-1 '() '(4 3 1 2 8 7 16 10 9 14))
+  ;; => (((() 1 (() 2 ())) 3 ()) 4 ((() 7 ()) 8 (((() 9 ()) 10 (() 14 ())) 16 ())))
   )
 (defn tree-insert
   "二叉树的插入"
@@ -127,20 +133,12 @@
         tree-insert-cb
         (fn [skey x]
           (swap! bst-tree-dots conj [skey x]))
+        ;; 复合一个函数tree-insert-cb进去
+        tree-insert-fn
+        (fn [tree x]
+          (tree-insert tree x tree-insert-cb))
         bst-tree-origin
-        (->
-          (tree-insert (list) 4 tree-insert-cb) ;; ROOT节点的值
-          ;; 左边的树杈
-          (tree-insert 3 tree-insert-cb)
-          (tree-insert 1 tree-insert-cb)
-          (tree-insert 2 tree-insert-cb)
-          ;; 右边的树杈
-          (tree-insert 8 tree-insert-cb)
-          (tree-insert 7 tree-insert-cb)
-          (tree-insert 16 tree-insert-cb)
-          (tree-insert 10 tree-insert-cb)
-          (tree-insert 9 tree-insert-cb)
-          (tree-insert 14 tree-insert-cb))
+        (sch/fold-left tree-insert-fn '() middle-search-list)
         bst-tree (op-fn bst-tree-origin tree-insert-cb)]
     (do
       (let [datas (rest @bst-tree-dots)
