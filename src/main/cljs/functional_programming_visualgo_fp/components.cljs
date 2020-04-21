@@ -20,7 +20,7 @@
                          :on-click #(if (= @left-menu "close")
                                       (re-frame/dispatch [:left-menu "open"])
                                       (do (re-frame/dispatch [:left-menu "close"])
-                                          (re-frame/dispatch [:left-menu-item "create"])))}
+                                          (re-frame/dispatch [:left-menu-item "graphviz"])))}
          [:div.h-100.flex
           [:div.flex.justify-center.align-center
            [:img {:style {:height "15em"}
@@ -49,9 +49,15 @@
       [:div.flex.flex-column.h-100.bg-black
        {:style {:width "2em"}}]
       ;; TODO: svg高度限制不了的问题,外面的盒子高度限制不管用, 但是宽度是能flex的
-      [:div.flex.flex-auto.justify-center.items-center.mt3.mb3
-       {:style {:height "80vh"}
-        :id "graph"}]
+      (if (= @left-menu-item "graphviz")
+        [:div.flex.flex-auto.justify-center.items-center.mt3.mb3.flex-row
+         {:style {:height "84vh"}}
+         ;; TODO: 左边为编辑的列表,右边为树的显示,开发算法前的梳理 # 不知道为什么点击了创建之后,再回到graphviz,就会出现三列
+         [:div.bg-blue {:style {:width "50vw" :height "84vh"}}]
+         [:div.bg-red {:style {:width "50vw" :height "84vh"}}]]
+        [:div.flex.flex-auto.justify-center.items-center.mt3.mb3
+         {:style {:height "84vh"}
+          :id "graph"}])
       ;; 右边菜单栏
       [:div.bg-black {:style {:width "2em"}}]]
      ;; 底部菜单栏
