@@ -106,6 +106,6 @@
         {"graphviz" [:div]
          "visual-process" [:div]}]
     (comps/base-page
-      :title "函数式编程Hello Kid"
+      :title "一列数找到勾股数组合"
       :left-menu-datas left-menu-datas
       :left-menu-item-datas left-menu-item-datas)))

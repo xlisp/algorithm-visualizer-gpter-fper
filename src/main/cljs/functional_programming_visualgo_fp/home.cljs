@@ -54,7 +54,7 @@
     [:div.flex.flex-row.mt3
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "线段树 TODO" :logo "/img/bst-logo.svg"] ]
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "树状数组 TODO" :logo "/img/bst-logo.svg"] ]
-     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "递归树/有向无环图 TODO" :logo "/img/bst-logo.svg"] ]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "递归树/有向无环图" :logo "/img/bst-logo.svg"] ]
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "图遍历 TODO" :logo "/img/bst-logo.svg"] ]]
     [:div.flex.flex-row.mt3
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "最小生成树 TODO" :logo "/img/bst-logo.svg"] ]
@@ -69,17 +69,19 @@
     [:div.flex.flex-row.mt3
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "凸体船体 TODO" :logo "/img/bst-logo.svg"] ]
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "最小顶点覆盖 TODO" :logo "/img/bst-logo.svg"] ]
-     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "Traveling Salesman TODO" :logo "/img/bst-logo.svg"] ]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "Traveling Salesman" :logo "/img/bst-logo.svg"] ]
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "Steiner Tree TODO" :logo "/img/bst-logo.svg"] ]]
     [dividing-line]
     [:div.flex.flex-row {:style {:width "40em"}}
-     [:div.mb3.b.mt3 "其他函数式算法"]
+     [:div.mb3.b.mt3 "SICP练习题(基本函数式算法)"]
      [:div.flex.flex-auto]]
     [:div.flex.flex-row.mt3
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
                          :on-click #(router/switch-router! "/base-math1")}
-      [menu-item :title "函数式编程Hello Kid" :logo "/img/bst-logo.svg"]]
-     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "其他算法1 TODO" :logo "/img/bst-logo.svg"] ]
+      [menu-item :title "一列数找到勾股数组合" :logo "/img/bst-logo.svg"]]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
+                         :on-click #(router/switch-router! "/base-math2")}
+      [menu-item :title "SICP找零钱问题" :logo "/img/bst-logo.svg"]]
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "其他算法2 TODO" :logo "/img/bst-logo.svg"] ]
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "其他算法3 TODO" :logo "/img/bst-logo.svg"] ]]
     [dividing-line]
