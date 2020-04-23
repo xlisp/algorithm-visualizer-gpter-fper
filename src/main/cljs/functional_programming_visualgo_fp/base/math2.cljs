@@ -40,6 +40,6 @@
         {"graphviz" [:div]
          "visual-process" [:div]}]
     (comps/base-page
-      :title "SICP找零钱问题"
+      :title "找零钱问题"
       :left-menu-datas left-menu-datas
       :left-menu-item-datas left-menu-item-datas)))

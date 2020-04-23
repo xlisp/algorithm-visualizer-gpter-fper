@@ -81,9 +81,14 @@
       [menu-item :title "一列数找到勾股数组合" :logo "/img/bst-logo.svg"]]
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
                          :on-click #(router/switch-router! "/base-math2")}
-      [menu-item :title "SICP找零钱问题" :logo "/img/bst-logo.svg"]]
-     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "其他算法2 TODO" :logo "/img/bst-logo.svg"] ]
-     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "其他算法3 TODO" :logo "/img/bst-logo.svg"] ]]
+      [menu-item :title "找零钱问题" :logo "/img/bst-logo.svg"]]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "斐波那契数列 TODO" :logo "/img/bst-logo.svg"] ]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "元解释器 TODO" :logo "/img/bst-logo.svg"] ]]
+    [:div.flex.flex-row.mt3
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "牛顿法求平方根" :logo "/img/bst-logo.svg"]]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "Huffman编码树" :logo "/img/bst-logo.svg"] ]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "最大公约数 TODO" :logo "/img/bst-logo.svg"] ]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "区间算术 TODO" :logo "/img/bst-logo.svg"] ]]
     [dividing-line]
     [:div.flex.flex-row {:style {:width "40em"}}
      [:div.mb3.b.mt3 "深度学习算法"]
