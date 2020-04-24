@@ -228,3 +228,24 @@
       (fn [item]
         (str " " item " [shape=\"circle\" label=\"" item " \" fillcolor=\"\"]"))
       datas)))
+
+;; 参考D3.js的领域描述来设计你的公共函数库,你的TODO
+(defn select-all-path
+  "TODO: 查找特定的一些边,然后改变他们的颜色"
+  [])
+
+(defn select-all-circle
+  "TODO: 查找特定的一些圆圈,然后改变他们的颜色"
+  [])
+
+(defn append-path-circle
+  "TODO: 在特定的边后面,加上圆圈"
+  [])
+
+(defn append-circle-path
+  "TODO: 在特定的圆圈后面,加上边"
+  [])
+
+(defn update-circle-text
+  "TODO: 修改圆圈内部的text内容"
+  [text text2])

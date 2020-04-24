@@ -8,8 +8,9 @@
             [functional-programming-visualgo-fp.scheme :as sch]
             [functional-programming-visualgo-fp.components :as comps]))
 
-(def dot-stri "digraph  {node [style=\"filled\"];4 -> 3; 4 -> 8; 3 -> 1; 8 -> 7; 8 -> 16; 1 -> 2; 16 -> 10; 10 -> 9; 10 -> 14;")
+(def dot-head "digraph  {node [style=\"filled\"];")
 
+;; 中序遍历的列表
 (def middle-search-list '(4 3 1 2 8 7 16 10 9 14))
 
 (comment
@@ -18,43 +19,6 @@
 (defonce bst-tree-atom (reagent/atom []))
 
 (defonce bst-tree-dots (reagent/atom []))
-
-;; 参考D3.js的领域描述来设计你的公共函数库,你的TODO
-
-(defn select-all-path
-  "TODO: 查找特定的一些边,然后改变他们的颜色"
-  [])
-
-(defn select-all-circle
-  "TODO: 查找特定的一些圆圈,然后改变他们的颜色"
-  [])
-
-(defn append-path-circle
-  "TODO: 在特定的边后面,加上圆圈"
-  [])
-
-(defn append-circle-path
-  "TODO: 在特定的圆圈后面,加上边"
-  [])
-
-(defn update-circle-text
-  "TODO: 修改圆圈内部的text内容"
-  [text text2])
-
-(defn generate-rand-tree []
-  [:div.flex.flex-row.pa3
-   [:div.flex.flex-auto]
-   [:div
-    [:button.f5.ba.bg-white
-     {:on-click #(graphviz/d3-graphviz "#graph"
-                   "digraph  {4 -> 3; 4 -> 8; 3 -> 1; 8 -> 7; 8 -> 16}")
-      :style {:border-radius "1em"
-              :height "2em"
-              :color "gray"
-              :border "2px solid rgba(187, 187, 187, 1)"
-              :width "7em"}}
-     "生成随机树"]]])
-
 
 (comment
   ;; 根据中序遍历的结果来生成一颗目标的bst树
@@ -119,7 +83,6 @@
   [tree x op-fn]
   (do
     (op-fn (sch/s-key tree))
-    ;; (prn tree "这里打印出来的是搜索路径高亮:" (sch/s-key tree))
     (cond (empty? tree) tree
 	      (= x (sch/s-key tree)) tree
 	      (< x (sch/s-key tree)) (tree-search (sch/left tree) x op-fn)
@@ -127,9 +90,6 @@
 
 (defn tree-data-init [is-reset-dot op-fn]
   (let [_ (reset! bst-tree-dots [])
-        #_(if is-reset-dot
-            (reset! bst-tree-dots [])
-            nil)
         tree-insert-cb
         (fn [skey x]
           (swap! bst-tree-dots conj [skey x]))
@@ -152,12 +112,16 @@
       [bst-tree @bst-tree-dots])))
 
 (defn tree-search-visual [value]
-  (let [bst-tree (first (tree-data-init true identity))]
+  (let [bst-tree (first (tree-data-init true identity))
+        dot-str (str dot-head
+                  (clojure.string/join ";"
+                    (map (fn [[a b]] (str a " -> " b)) @bst-tree-dots))
+                  ";")]
     (do
       (tree-search bst-tree value
         (fn [s-key]
           (swap! bst-tree-atom conj
-            (str dot-stri s-key " [fillcolor=\"yellow\"]" "}"))))
+            (str dot-str s-key " [fillcolor=\"yellow\"]" "}"))))
       (graphviz/render-list "#graph" @bst-tree-atom (atom 0)))))
 
 (defn show-bst-tree-dots []
@@ -185,6 +149,12 @@
         (tree-insert-cb (sch/s-key bst-tree-origin) num))))
   (show-bst-tree-dots))
 
+(defn get-max-val-in-tree [lis]
+  (first (sort > lis)))
+
+(defn get-min-val-in-tree [lis]
+  (last (sort > lis)))
+
 (defn page []
   (reagent/with-let [search-value (reagent/atom 9)]
     (let [left-menu-datas
@@ -204,14 +174,15 @@
                        :on-click
                        (fn []
                          (reset! bst-tree-atom [])
-                         (tree-search-visual 16))} "最大值"]
+                         (tree-search-visual
+                           (get-max-val-in-tree middle-search-list)))} "最大值"]
                      [:div.bg-yellow.ml1.pa1.f6
                       {:class (<class css/hover-menu-style)
                        :style {:width "4em"}
                        :on-click (fn []
                                    (reset! bst-tree-atom [])
-                                   ;; TODO: 需要flatten然后排序一下
-                                   (tree-search-visual 1))} "最小值"]
+                                   (tree-search-visual
+                                     (get-min-val-in-tree middle-search-list)))} "最小值"]
                      [:div.ml1
                       [:input {:value @search-value
                                :on-change #(reset! search-value (.. % -target -value))
