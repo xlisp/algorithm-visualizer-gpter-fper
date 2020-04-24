@@ -1,5 +1,10 @@
 # 函数式算法可视化 functional programming algorithm visualizer
 
+* 太极来描述递归的对立统一的两面: eval,apply元解释器λ演算解释一切复杂算法
+![](https://raw.githubusercontent.com/chanshunli/functional-programming-visualgo/master/太极来描述递归的对立统一的两面SICP_EVAL_APPLY_元解释器.png)
+
+
+
 - [函数式算法可视化 functional programming algorithm visualizer](#%E5%87%BD%E6%95%B0%E5%BC%8F%E7%AE%97%E6%B3%95%E5%8F%AF%E8%A7%86%E5%8C%96-functional-programming-algorithm-visualizer)
   - [算法可视化开发第一性原则](#%E7%AE%97%E6%B3%95%E5%8F%AF%E8%A7%86%E5%8C%96%E5%BC%80%E5%8F%91%E7%AC%AC%E4%B8%80%E6%80%A7%E5%8E%9F%E5%88%99)
     - [递归方法的总结](#%E9%80%92%E5%BD%92%E6%96%B9%E6%B3%95%E7%9A%84%E6%80%BB%E7%BB%93)
