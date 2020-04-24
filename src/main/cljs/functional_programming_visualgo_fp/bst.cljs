@@ -10,9 +10,6 @@
 
 (def dot-head "digraph  {node [style=\"filled\"];")
 
-;; 中序遍历的列表
-(def middle-search-list '(4 3 1 2 8 7 16 10 9 14))
-
 (comment
   ;; 给二叉树搜索去用的atom list
   (reset! bst-tree-atom []))
@@ -88,7 +85,7 @@
 	      (< x (sch/s-key tree)) (tree-search (sch/left tree) x op-fn)
           :else (tree-search (sch/right tree) x op-fn))))
 
-(defn tree-data-init [is-reset-dot op-fn]
+(defn tree-data-init [is-reset-dot op-fn middle-search-list]
   (let [_ (reset! bst-tree-dots [])
         tree-insert-cb
         (fn [skey x]
@@ -111,8 +108,8 @@
         (reset! bst-tree-dots dot-results))
       [bst-tree @bst-tree-dots])))
 
-(defn tree-search-visual [value]
-  (let [bst-tree (first (tree-data-init true identity))
+(defn tree-search-visual [value middle-search-list]
+  (let [bst-tree (first (tree-data-init true identity middle-search-list))
         dot-str (str dot-head
                   (clojure.string/join ";"
                     (map (fn [[a b]] (str a " -> " b)) @bst-tree-dots))
@@ -133,20 +130,20 @@
         (map (fn [item]
                (str (first item) " -> " (last item))) @bst-tree-dots)) "}")))
 
-(defn create-bst-visual []
-  (tree-data-init true identity)
+(defn create-bst-visual [middle-search-list]
+  (tree-data-init true identity middle-search-list)
   (show-bst-tree-dots))
 
 (comment
   (insert-bst-visual))
-(defn insert-bst-visual []
+(defn insert-bst-visual [middle-search-list]
   (tree-data-init
     false
     (fn [bst-tree-origin tree-insert-cb]
       (let [num (rand-not-in-bst-tree-val bst-tree-origin)]
         (prn "插入值:" num ", sch/s-key: " (sch/s-key bst-tree-origin))
         (tree-insert bst-tree-origin num tree-insert-cb)
-        (tree-insert-cb (sch/s-key bst-tree-origin) num))))
+        (tree-insert-cb (sch/s-key bst-tree-origin) num))) middle-search-list)
   (show-bst-tree-dots))
 
 (defn get-max-val-in-tree [lis]
@@ -156,17 +153,30 @@
   (last (sort > lis)))
 
 (defn page []
-  (reagent/with-let [search-value (reagent/atom 9)]
-    (let [left-menu-datas
+  (reagent/with-let [search-value (reagent/atom 9)
+                     middle-search-list (reagent/atom "4,3,1,2,8,7,16,10,9,14")]
+    (let [get-middle-search-list
+          (fn []
+            (map js/parseInt  (clojure.string/split @middle-search-list #",")))
+          left-menu-datas
           [{:button-name "GraphViz图" :menu-item-name "graphviz" :click-fn nil}
-           {:button-name "创建" :menu-item-name "create" :click-fn #(do (create-bst-visual))}
-           {:button-name "插入" :menu-item-name "insert" :click-fn #(do (insert-bst-visual))}
+           {:button-name "创建" :menu-item-name "create" :click-fn nil}
+           {:button-name "插入" :menu-item-name "insert" :click-fn #(insert-bst-visual (get-middle-search-list))}
            {:button-name "搜索" :menu-item-name "search" :click-fn nil}
            {:button-name "移除" :menu-item-name "remove" :click-fn nil}
            {:button-name "中序遍历" :menu-item-name "middle-search" :click-fn nil}
            {:button-name "使用示例" :menu-item-name "usage-example" :click-fn nil}]
           left-menu-item-datas
-          {"create" [:div]
+          {"create" [:div.flex.flex-row {:style {:margin-top "2.5em"}}
+                     [:div.ml1
+                      [:input {:value @middle-search-list
+                               :on-change #(reset! middle-search-list (.. % -target -value))
+                               :placeholder "中序遍历的顺序列表"}]]
+                     [:div.bg-yellow.ml1.pa1.f6
+                      {:on-click (fn []
+                                   (create-bst-visual (get-middle-search-list)))
+                       :class (<class css/hover-menu-style)
+                       :style {:width "4em"}} "创建"]]
            "search" [:div.flex.flex-row {:style {:margin-top "6.5em"}}
                      [:div.bg-yellow.pa1.f6
                       {:class (<class css/hover-menu-style)
@@ -175,14 +185,16 @@
                        (fn []
                          (reset! bst-tree-atom [])
                          (tree-search-visual
-                           (get-max-val-in-tree middle-search-list)))} "最大值"]
+                           (get-max-val-in-tree (get-middle-search-list))
+                           (get-middle-search-list)))} "最大值"]
                      [:div.bg-yellow.ml1.pa1.f6
                       {:class (<class css/hover-menu-style)
                        :style {:width "4em"}
                        :on-click (fn []
                                    (reset! bst-tree-atom [])
                                    (tree-search-visual
-                                     (get-min-val-in-tree middle-search-list)))} "最小值"]
+                                     (get-min-val-in-tree (get-middle-search-list))
+                                     (get-middle-search-list)))} "最小值"]
                      [:div.ml1
                       [:input {:value @search-value
                                :on-change #(reset! search-value (.. % -target -value))
@@ -192,7 +204,7 @@
                      [:div.bg-yellow.ml1.pa1.f6
                       {:on-click (fn []
                                    (reset! bst-tree-atom [])
-                                   (tree-search-visual @search-value))
+                                   (tree-search-visual @search-value (get-middle-search-list)))
                        :class (<class css/hover-menu-style)
                        :style {:width "4em"}} "查找值"]]}]
       (comps/base-page
