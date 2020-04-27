@@ -3,7 +3,8 @@
 * 太极来描述递归的对立统一的两面: eval,apply元解释器λ演算解释一切复杂算法
 ![](https://raw.githubusercontent.com/chanshunli/functional-programming-visualgo/master/太极来描述递归的对立统一的两面SICP_EVAL_APPLY_元解释器.png)
 
-
+* 函数式思想: 就是四两拨千斤, 就像太极一样 => FP的算法,递归描述算法是最简的统一算法的方式(解释器和所有算法的递归形式统一),接近数学,而不是堆栈的算法描述方式接近机器
+![](https://raw.githubusercontent.com/chanshunli/functional-programming-visualgo/master/clojure-kungfu.jpg)
 
 - [函数式算法可视化 functional programming algorithm visualizer](#%E5%87%BD%E6%95%B0%E5%BC%8F%E7%AE%97%E6%B3%95%E5%8F%AF%E8%A7%86%E5%8C%96-functional-programming-algorithm-visualizer)
   - [算法可视化开发第一性原则](#%E7%AE%97%E6%B3%95%E5%8F%AF%E8%A7%86%E5%8C%96%E5%BC%80%E5%8F%91%E7%AC%AC%E4%B8%80%E6%80%A7%E5%8E%9F%E5%88%99)
