@@ -216,6 +216,75 @@
                              [[{:id 9, :deep 1} []] [{:id 11, :deep 2} []]]
                              [[{:id 10, :deep 1} []] nil]]]])
 
+  ;; --------------- 提炼fn : 从f1, f2 ... fn  ----------------
+  (clojure.walk/postwalk
+    (fn [x]
+      ;; (prn x)
+      (cond
+        (and (vector? x) (= (count x) 2))
+
+        (if (and  (= (last x) [])
+              (map?  (first x))
+              ;; 过滤出来deep=2的值
+              (= (:deep (first x)) 1))
+          (do (prn "#### " x "----" (mydb (:id (first x))) "++++" (:id (first x)))
+              [(first x) (mydb (:id (first x))) ]
+              )
+          x)
+        ,
+        :else x))
+    data-1)
+  ;; -> 提炼fn : 从f1, f2 ... fn
+  (defn f-n [datas deep]
+    (clojure.walk/postwalk
+      (fn [x]
+        ;; (prn x)
+        (cond
+          (and (vector? x) (= (count x) 2))
+
+          (if (and  (= (last x) [])
+                (map?  (first x))
+                (= (:deep (first x)) deep))
+            (do (prn "#### " x "----" (mydb (:id (first x))) "++++" (:id (first x)))
+                [(first x) (mydb (:id (first x))) ]
+                )
+            x)
+          ,
+          :else x))
+      datas))
+
+  (f-n data-1 1)
+  ;; =>
+  [[[{:id 1, :deep 0} []] [[{:id 2, :deep 1} nil] [{:id 3, :deep 1} nil]]]
+   [[{:id 4, :deep 0} []] [[{:id 5, :deep 1} [{:id 12, :deep 2} []]]]]
+   [[{:id 6, :deep 0} []] []]
+   [[{:id 7, :deep 0} []] [[{:id 8, :deep 1} nil]
+                           [{:id 9, :deep 1} [{:id 11, :deep 2} []]]
+                           [{:id 10, :deep 1} nil]]]]
+
+  (f-n data-2 2)
+  ;; =>
+  ([[{:id 1, :deep 0} []] ([[{:id 2, :deep 1} []] nil] [[{:id 3, :deep 1} []] nil])]
+   [[{:id 4, :deep 0} []] ([[{:id 5, :deep 1} []] [{:id 12, :deep 2} nil]])]
+   [[{:id 6, :deep 0} []] ()]
+   [[{:id 7, :deep 0} []] ([[{:id 8, :deep 1} []] nil]
+                           [[{:id 9, :deep 1} []] [{:id 11, :deep 2} [{:id 13, :deep 3} []]]]
+                           [[{:id 10, :deep 1} []] nil])])
+  ;;
+
+  (f-n [[[{:id 1, :deep 0} []]]
+        [[{:id 4, :deep 0} []]]
+        [[{:id 6, :deep 0} []]]
+        [[{:id 7, :deep 0} []]]] 0)
+  ;; =>
+  [[[{:id 1, :deep 0} [[{:id 2, :deep 1} []] [{:id 3, :deep 1} []]]]]
+   [[{:id 4, :deep 0} [[{:id 5, :deep 1} []]]]]
+   [[{:id 6, :deep 0} []]]
+   [[{:id 7, :deep 0} [[{:id 8, :deep 1} []]
+                       [{:id 9, :deep 1} []]
+                       [{:id 10, :deep 1} []]]]]]
+
+
   )
 (defn page []
   (let [left-menu-datas
