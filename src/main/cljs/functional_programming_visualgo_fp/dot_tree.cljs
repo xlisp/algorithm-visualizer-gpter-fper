@@ -284,6 +284,25 @@
                        [{:id 9, :deep 1} []]
                        [{:id 10, :deep 1} []]]]]]
 
+  ;; ------- 实现了 (fn .... (f2 (f1 x))) ---------------
+  (def x0 [[[{:id 1, :deep 0} []]]
+           [[{:id 4, :deep 0} []]]
+           [[{:id 6, :deep 0} []]]
+           [[{:id 7, :deep 0} []]]])
+
+  (f-n (f-n (f-n x0 0) 1) 2)
+  ;; =>
+  (def f-n-res
+    [[[{:id 1, :deep 0} [[{:id 2, :deep 1} nil] [{:id 3, :deep 1} nil]]]]
+     [[{:id 4, :deep 0} [[{:id 5, :deep 1} [{:id 12, :deep 2} nil]]]]]
+     [[{:id 6, :deep 0} []]]
+     [[{:id 7, :deep 0} [[{:id 8, :deep 1} nil]
+                         [{:id 9, :deep 1} [{:id 11, :deep 2} [{:id 13, :deep 3} []]]]
+                         [{:id 10, :deep 1} nil]]]]])
+
+  ;; --- 折叠高阶函数起来 ---------
+  (= (sch/fold-left f-n x0 '(0 1 2)) f-n-res ) ;=> true
+
 
   )
 (defn page []
