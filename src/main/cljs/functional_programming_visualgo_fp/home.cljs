@@ -90,6 +90,14 @@
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "最大公约数 TODO" :logo "/img/bst-logo.svg"] ]
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "区间算术 TODO" :logo "/img/bst-logo.svg"] ]]
     [dividing-line]
+    [:div.flex.flex-row.mt3
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
+                         :on-click #(router/switch-router! "/dot-tree")}
+      [menu-item :title "Dot树的操作" :logo "/img/bst-logo.svg"]]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "Postwalk算法解释器" :logo "/img/bst-logo.svg"] ]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "从高阶到折叠到递归" :logo "/img/bst-logo.svg"] ]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "其他算法脚手架" :logo "/img/bst-logo.svg"] ]]
+    [dividing-line]
     [:div.flex.flex-row {:style {:width "40em"}}
      [:div.mb3.b.mt3 "深度学习算法"]
      [:div.flex.flex-auto]]

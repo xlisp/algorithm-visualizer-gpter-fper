@@ -11,6 +11,7 @@
     [["/" :home]
      ["/bst" :bst]
      ["/heap" :heap]
+     ["/dot-tree" :dot-tree]
      ["/base-math1" :base-math1]
      ["/base-math2" :base-math2]]
     {:compile rc/compile-request-coercers
