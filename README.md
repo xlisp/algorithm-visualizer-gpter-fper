@@ -1,4 +1,16 @@
-# 函数式算法可视化 functional programming algorithm visualizer
+# 算法可视化开发，GPT辅助生成，函数式化后去递归的算法辅助开发脚手架平台
+
+- [ ] 写一个GPT的提示词工程界面，辅助代码生成和运行的界面，通过项目和提示词历史，丰富提示词去提交，五六个UI界面窗口的实现
+  - [ ] GPT生成的代码解析，静态分析判断其逻辑是否准确性
+  - [ ] 用datalog来保存整个开发过程出现的提示词历史，还有repl历史, 以便更容易生成符合逻辑的提示词
+
+- [ ] 函数式递归的开发脚手架的实现：数据流可视化，分析递增递减
+
+- [ ] 数据流的可视化设计开发，lambda化数据流, 通过可视化数据流来帮助快速理解问题
+ 
+---
+
+## 思想
 
 * 太极来描述递归的对立统一的两面: eval,apply元解释器λ演算解释一切复杂算法
 ![](https://raw.githubusercontent.com/chanshunli/functional-programming-visualgo/master/太极来描述递归的对立统一的两面SICP_EVAL_APPLY_元解释器.png)
