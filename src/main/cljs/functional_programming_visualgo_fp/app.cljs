@@ -38,8 +38,8 @@
   (doto (History.)
     (events/listen
       HistoryEventType/NAVIGATE
-      (fn [event]
-        (let [uri (or (not-empty (string/replace (.-token event) #"^.*#" "")) "/")
+      (fn [^js event]
+        (let [uri (or (not-empty (string/replace (.-token ^js event) #"^.*#" "")) "/")
               match (reitit/match-by-path router/router uri)
               current-page (:name (:data match))
               route-params (:path-params match)]
