@@ -45,6 +45,7 @@
                  cljs-bean               {:mvn/version "1.5.0"}
                  reagent                 {:mvn/version "0.9.1"}
                  cljs-http               {:mvn/version "0.1.46"}
+                 datascript/datascript   {:mvn/version "1.6.3"}
                  alandipert/storage-atom {:mvn/version "2.0.1"}
                  re-frame                {:mvn/version "0.11.0"}
                  garden                  {:mvn/version "1.3.9"}

@@ -1,8 +1,8 @@
 {:redis    {:pool {} :spec {:host "127.0.0.1"
                             :port 6379}}
  :database {:dbtype   "mysql"
-            :dbname   "functional_programming_visualgo"
+            :dbname   "algorithm_visualizer_gpter_fper"
             :host     "127.0.0.1"
             :port     3306
             :user     "root"
-            :password "123456"}}
+            :password "12345678"}}
