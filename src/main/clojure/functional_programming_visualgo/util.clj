@@ -45,7 +45,7 @@
   [sqlmap]
   (sql/format sqlmap
     :namespace-as-table? true
-    :quoting :mysql))
+    :quoting :ansi))
 
 (defn sql-execute!
   [sqlmap]

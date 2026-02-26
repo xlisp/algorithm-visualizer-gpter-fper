@@ -17,7 +17,7 @@
   ch.qos.logback/logback-classic                  {:mvn/version "1.2.3"}
   clojure.java-time                               {:mvn/version "0.3.2"}
   org.clojure/java.jdbc                           {:mvn/version "0.7.11"}
-  mysql/mysql-connector-java                      {:mvn/version "8.0.19"}
+  org.postgresql/postgresql                        {:mvn/version "42.7.1"}
   honeysql                                        {:mvn/version "0.9.8"}
   org.clojure/tools.logging                       {:mvn/version "0.5.0"}
   jarohen/chime                                   {:mvn/version "0.3.0-SNAPSHOT"}
