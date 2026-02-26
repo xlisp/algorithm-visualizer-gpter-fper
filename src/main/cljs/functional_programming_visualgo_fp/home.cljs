@@ -38,10 +38,18 @@
      [:div.mb3.b "基本算法"]
      [:div.flex.flex-auto]]
     [:div.flex.flex-row
-     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "排序 TODO" :logo "/img/bst-logo.svg"] ]
-     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "位掩码 TODO" :logo "/img/bst-logo.svg"] ]
-     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "链表 TODO" :logo "/img/bst-logo.svg"] ]
-     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "哈希表 TODO" :logo "/img/bst-logo.svg"] ]]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
+                         :on-click #(router/switch-router! "/sorting")}
+      [menu-item :title "排序" :logo "/img/bst-logo.svg"] ]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
+                         :on-click #(router/switch-router! "/bitmask")}
+      [menu-item :title "位掩码" :logo "/img/bst-logo.svg"] ]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
+                         :on-click #(router/switch-router! "/linked-list")}
+      [menu-item :title "链表" :logo "/img/bst-logo.svg"] ]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
+                         :on-click #(router/switch-router! "/hash-table")}
+      [menu-item :title "哈希表" :logo "/img/bst-logo.svg"] ]]
     [:div.flex.flex-row.mt3
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
                          :on-click #(router/switch-router! "/heap")}
@@ -49,28 +57,62 @@
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
                          :on-click #(router/switch-router! "/bst")}
       [menu-item :title "二叉搜索树" :logo "/img/bst-logo.svg"]]
-     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "图结构 TODO" :logo "/img/bst-logo.svg"] ]
-     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "并查集 TODO" :logo "/img/bst-logo.svg"] ]]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
+                         :on-click #(router/switch-router! "/graph")}
+      [menu-item :title "图结构" :logo "/img/bst-logo.svg"] ]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
+                         :on-click #(router/switch-router! "/union-find")}
+      [menu-item :title "并查集" :logo "/img/bst-logo.svg"] ]]
     [:div.flex.flex-row.mt3
-     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "线段树 TODO" :logo "/img/bst-logo.svg"] ]
-     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "树状数组 TODO" :logo "/img/bst-logo.svg"] ]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
+                         :on-click #(router/switch-router! "/segment-tree")}
+      [menu-item :title "线段树" :logo "/img/bst-logo.svg"] ]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
+                         :on-click #(router/switch-router! "/fenwick-tree")}
+      [menu-item :title "树状数组" :logo "/img/bst-logo.svg"] ]
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "递归树/有向无环图" :logo "/img/bst-logo.svg"] ]
-     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "图遍历 TODO" :logo "/img/bst-logo.svg"] ]]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
+                         :on-click #(router/switch-router! "/graph-traversal")}
+      [menu-item :title "图遍历" :logo "/img/bst-logo.svg"] ]]
     [:div.flex.flex-row.mt3
-     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "最小生成树 TODO" :logo "/img/bst-logo.svg"] ]
-     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "单源最短路径 TODO" :logo "/img/bst-logo.svg"] ]
-     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "网络流 TODO" :logo "/img/bst-logo.svg"] ]
-     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "二分匹配 TODO" :logo "/img/bst-logo.svg"] ]]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
+                         :on-click #(router/switch-router! "/mst")}
+      [menu-item :title "最小生成树" :logo "/img/bst-logo.svg"] ]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
+                         :on-click #(router/switch-router! "/sssp")}
+      [menu-item :title "单源最短路径" :logo "/img/bst-logo.svg"] ]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
+                         :on-click #(router/switch-router! "/network-flow")}
+      [menu-item :title "网络流" :logo "/img/bst-logo.svg"] ]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
+                         :on-click #(router/switch-router! "/bipartite-matching")}
+      [menu-item :title "二分匹配" :logo "/img/bst-logo.svg"] ]]
     [:div.flex.flex-row.mt3
-     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "循环查找 TODO" :logo "/img/bst-logo.svg"] ]
-     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "后缀树 TODO" :logo "/img/bst-logo.svg"] ]
-     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "后缀数组 TODO" :logo "/img/bst-logo.svg"] ]
-     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "计算几何 TODO" :logo "/img/bst-logo.svg"] ]]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
+                         :on-click #(router/switch-router! "/cycle-finding")}
+      [menu-item :title "循环查找" :logo "/img/bst-logo.svg"] ]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
+                         :on-click #(router/switch-router! "/suffix-tree")}
+      [menu-item :title "后缀树" :logo "/img/bst-logo.svg"] ]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
+                         :on-click #(router/switch-router! "/suffix-array")}
+      [menu-item :title "后缀数组" :logo "/img/bst-logo.svg"] ]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
+                         :on-click #(router/switch-router! "/computational-geometry")}
+      [menu-item :title "计算几何" :logo "/img/bst-logo.svg"] ]]
     [:div.flex.flex-row.mt3
-     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "凸体船体 TODO" :logo "/img/bst-logo.svg"] ]
-     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "最小顶点覆盖 TODO" :logo "/img/bst-logo.svg"] ]
-     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "Traveling Salesman" :logo "/img/bst-logo.svg"] ]
-     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "Steiner Tree TODO" :logo "/img/bst-logo.svg"] ]]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
+                         :on-click #(router/switch-router! "/convex-hull")}
+      [menu-item :title "凸包" :logo "/img/bst-logo.svg"] ]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
+                         :on-click #(router/switch-router! "/min-vertex-cover")}
+      [menu-item :title "最小顶点覆盖" :logo "/img/bst-logo.svg"] ]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
+                         :on-click #(router/switch-router! "/tsp")}
+      [menu-item :title "Traveling Salesman" :logo "/img/bst-logo.svg"] ]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
+                         :on-click #(router/switch-router! "/steiner-tree")}
+      [menu-item :title "Steiner Tree" :logo "/img/bst-logo.svg"] ]]
     [dividing-line]
     [:div.flex.flex-row {:style {:width "40em"}}
      [:div.mb3.b.mt3 "SICP练习题(基本函数式算法)"]

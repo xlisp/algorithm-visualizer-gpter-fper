@@ -19,7 +19,29 @@
             [functional-programming-visualgo-fp.algo.backtracking :as backtracking]
             [functional-programming-visualgo-fp.algo.dp :as dp]
             [functional-programming-visualgo-fp.algo.enumeration :as enumeration]
-            [functional-programming-visualgo-fp.algo.divide-conquer :as divide-conquer])
+            [functional-programming-visualgo-fp.algo.divide-conquer :as divide-conquer]
+            ;; 基本算法
+            [functional-programming-visualgo-fp.algo.sorting :as sorting]
+            [functional-programming-visualgo-fp.algo.bitmask :as bitmask]
+            [functional-programming-visualgo-fp.algo.linked-list :as linked-list]
+            [functional-programming-visualgo-fp.algo.hash-table :as hash-table]
+            [functional-programming-visualgo-fp.algo.graph :as graph]
+            [functional-programming-visualgo-fp.algo.union-find :as union-find]
+            [functional-programming-visualgo-fp.algo.segment-tree :as segment-tree]
+            [functional-programming-visualgo-fp.algo.fenwick-tree :as fenwick-tree]
+            [functional-programming-visualgo-fp.algo.graph-traversal :as graph-traversal]
+            [functional-programming-visualgo-fp.algo.mst :as mst]
+            [functional-programming-visualgo-fp.algo.sssp :as sssp]
+            [functional-programming-visualgo-fp.algo.network-flow :as network-flow]
+            [functional-programming-visualgo-fp.algo.bipartite-matching :as bipartite-matching]
+            [functional-programming-visualgo-fp.algo.cycle-finding :as cycle-finding]
+            [functional-programming-visualgo-fp.algo.suffix-tree :as suffix-tree]
+            [functional-programming-visualgo-fp.algo.suffix-array :as suffix-array]
+            [functional-programming-visualgo-fp.algo.convex-hull :as convex-hull]
+            [functional-programming-visualgo-fp.algo.min-vertex-cover :as min-vertex-cover]
+            [functional-programming-visualgo-fp.algo.tsp :as tsp]
+            [functional-programming-visualgo-fp.algo.steiner-tree :as steiner-tree]
+            [functional-programming-visualgo-fp.algo.computational-geometry :as computational-geometry])
   (:import goog.History
            (goog.date DateTime Interval)))
 
@@ -35,7 +57,29 @@
    :backtracking #'backtracking/page
    :dp #'dp/page
    :enumeration #'enumeration/page
-   :divide-conquer #'divide-conquer/page})
+   :divide-conquer #'divide-conquer/page
+   ;; 基本算法
+   :sorting #'sorting/page
+   :bitmask #'bitmask/page
+   :linked-list #'linked-list/page
+   :hash-table #'hash-table/page
+   :graph #'graph/page
+   :union-find #'union-find/page
+   :segment-tree #'segment-tree/page
+   :fenwick-tree #'fenwick-tree/page
+   :graph-traversal #'graph-traversal/page
+   :mst #'mst/page
+   :sssp #'sssp/page
+   :network-flow #'network-flow/page
+   :bipartite-matching #'bipartite-matching/page
+   :cycle-finding #'cycle-finding/page
+   :suffix-tree #'suffix-tree/page
+   :suffix-array #'suffix-array/page
+   :convex-hull #'convex-hull/page
+   :min-vertex-cover #'min-vertex-cover/page
+   :tsp #'tsp/page
+   :steiner-tree #'steiner-tree/page
+   :computational-geometry #'computational-geometry/page})
 
 (defn page []
   [:div
