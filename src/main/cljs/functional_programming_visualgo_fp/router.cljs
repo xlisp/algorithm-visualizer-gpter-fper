@@ -13,7 +13,13 @@
      ["/heap" :heap]
      ["/dot-tree" :dot-tree]
      ["/base-math1" :base-math1]
-     ["/base-math2" :base-math2]]
+     ["/base-math2" :base-math2]
+     ["/fibonacci" :fibonacci]
+     ["/greedy" :greedy]
+     ["/backtracking" :backtracking]
+     ["/dp" :dp]
+     ["/enumeration" :enumeration]
+     ["/divide-conquer" :divide-conquer]]
     {:compile rc/compile-request-coercers
      :data {:coercion rsc/coercion}}))
 

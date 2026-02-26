@@ -82,13 +82,43 @@
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
                          :on-click #(router/switch-router! "/base-math2")}
       [menu-item :title "找零钱问题" :logo "/img/bst-logo.svg"]]
-     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "斐波那契数列 TODO" :logo "/img/bst-logo.svg"] ]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
+                         :on-click #(router/switch-router! "/fibonacci")}
+      [menu-item :title "斐波那契数列" :logo "/img/bst-logo.svg"]]
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "元解释器 TODO" :logo "/img/bst-logo.svg"] ]]
     [:div.flex.flex-row.mt3
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "牛顿法求平方根" :logo "/img/bst-logo.svg"]]
-     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "Huffman编码树" :logo "/img/bst-logo.svg"] ]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
+                         :on-click #(router/switch-router! "/greedy")}
+      [menu-item :title "Huffman编码树" :logo "/img/bst-logo.svg"]]
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "最大公约数 TODO" :logo "/img/bst-logo.svg"] ]
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "区间算术 TODO" :logo "/img/bst-logo.svg"] ]]
+    [dividing-line]
+    [:div.flex.flex-row {:style {:width "40em"}}
+     [:div.mb3.b.mt3 "经典算法可视化"]
+     [:div.flex.flex-auto]]
+    [:div.flex.flex-row.mt3
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
+                          :on-click #(router/switch-router! "/fibonacci")}
+      [menu-item :title "递归算法" :logo "/img/bst-logo.svg"]]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
+                          :on-click #(router/switch-router! "/greedy")}
+      [menu-item :title "贪心算法" :logo "/img/bst-logo.svg"]]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
+                          :on-click #(router/switch-router! "/backtracking")}
+      [menu-item :title "回溯算法" :logo "/img/bst-logo.svg"]]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
+                          :on-click #(router/switch-router! "/dp")}
+      [menu-item :title "动态规划" :logo "/img/bst-logo.svg"]]]
+    [:div.flex.flex-row.mt3
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
+                          :on-click #(router/switch-router! "/enumeration")}
+      [menu-item :title "枚举算法" :logo "/img/bst-logo.svg"]]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}
+                          :on-click #(router/switch-router! "/divide-conquer")}
+      [menu-item :title "分治算法" :logo "/img/bst-logo.svg"]]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "更多算法 TODO" :logo "/img/bst-logo.svg"]]
+     [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}} [menu-item :title "更多算法 TODO" :logo "/img/bst-logo.svg"]]]
     [dividing-line]
     [:div.flex.flex-row.mt3
      [:div.shadow-3.ml2 {:style {:width "10em" :height "10em"}

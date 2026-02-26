@@ -13,7 +13,13 @@
             [functional-programming-visualgo-fp.dot-tree :as dot-tree]
             [functional-programming-visualgo-fp.router :as router]
             [functional-programming-visualgo-fp.base.math1 :as base-math1]
-            [functional-programming-visualgo-fp.base.math2 :as base-math2])
+            [functional-programming-visualgo-fp.base.math2 :as base-math2]
+            [functional-programming-visualgo-fp.algo.fibonacci :as fibonacci]
+            [functional-programming-visualgo-fp.algo.greedy :as greedy]
+            [functional-programming-visualgo-fp.algo.backtracking :as backtracking]
+            [functional-programming-visualgo-fp.algo.dp :as dp]
+            [functional-programming-visualgo-fp.algo.enumeration :as enumeration]
+            [functional-programming-visualgo-fp.algo.divide-conquer :as divide-conquer])
   (:import goog.History
            (goog.date DateTime Interval)))
 
@@ -23,7 +29,13 @@
    :heap #'heap/page
    :dot-tree #'dot-tree/page
    :base-math1 #'base-math1/page
-   :base-math2 #'base-math2/page})
+   :base-math2 #'base-math2/page
+   :fibonacci #'fibonacci/page
+   :greedy #'greedy/page
+   :backtracking #'backtracking/page
+   :dp #'dp/page
+   :enumeration #'enumeration/page
+   :divide-conquer #'divide-conquer/page})
 
 (defn page []
   [:div
