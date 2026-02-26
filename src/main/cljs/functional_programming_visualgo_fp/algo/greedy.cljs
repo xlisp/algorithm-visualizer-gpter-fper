@@ -141,16 +141,24 @@
 (defn page []
   (let [left-menu-datas
         [{:button-name "GraphViz图" :menu-item-name "graphviz" :click-fn nil}
-         {:button-name "活动选择" :menu-item-name "activity"
-          :click-fn #(run-activity-selection!)}
-         {:button-name "Huffman编码" :menu-item-name "huffman"
-          :click-fn #(run-huffman!)}
+         {:button-name "活动选择" :menu-item-name "activity" :click-fn nil}
+         {:button-name "Huffman编码" :menu-item-name "huffman" :click-fn nil}
          {:button-name "算法时间复杂度" :menu-item-name "time-complexity"
           :click-fn #(js/alert "活动选择 O(n log n)，Huffman O(n log n)")}]
         left-menu-item-datas
         {"graphviz" [:div]
-         "activity" [:div]
-         "huffman" [:div]}]
+         "activity"
+         [:div.flex.flex-row {:style {:margin-top "2.5em"}}
+          [:div.bg-yellow.ml1.pa1.f6
+           {:on-click #(run-activity-selection!)
+            :class (<class css/hover-menu-style)
+            :style {:width "4em"}} "运行"]]
+         "huffman"
+         [:div.flex.flex-row {:style {:margin-top "2.5em"}}
+          [:div.bg-yellow.ml1.pa1.f6
+           {:on-click #(run-huffman!)
+            :class (<class css/hover-menu-style)
+            :style {:width "4em"}} "运行"]]}]
     (comps/base-page
       :title "贪心算法"
       :left-menu-datas left-menu-datas

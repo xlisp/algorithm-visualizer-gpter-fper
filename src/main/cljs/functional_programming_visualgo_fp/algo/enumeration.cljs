@@ -132,16 +132,24 @@
 (defn page []
   (let [left-menu-datas
         [{:button-name "GraphViz图" :menu-item-name "graphviz" :click-fn nil}
-         {:button-name "阿姆斯特朗数" :menu-item-name "armstrong"
-          :click-fn #(run-armstrong!)}
-         {:button-name "百鸡问题" :menu-item-name "chickens"
-          :click-fn #(run-hundred-chickens!)}
+         {:button-name "阿姆斯特朗数" :menu-item-name "armstrong" :click-fn nil}
+         {:button-name "百鸡问题" :menu-item-name "chickens" :click-fn nil}
          {:button-name "算法时间复杂度" :menu-item-name "time-complexity"
           :click-fn #(js/alert "阿姆斯特朗数 O(n*d)，百鸡问题 O(n^2)")}]
         left-menu-item-datas
         {"graphviz" [:div]
-         "armstrong" [:div]
-         "chickens" [:div]}]
+         "armstrong"
+         [:div.flex.flex-row {:style {:margin-top "2.5em"}}
+          [:div.bg-yellow.ml1.pa1.f6
+           {:on-click #(run-armstrong!)
+            :class (<class css/hover-menu-style)
+            :style {:width "4em"}} "运行"]]
+         "chickens"
+         [:div.flex.flex-row {:style {:margin-top "2.5em"}}
+          [:div.bg-yellow.ml1.pa1.f6
+           {:on-click #(run-hundred-chickens!)
+            :class (<class css/hover-menu-style)
+            :style {:width "4em"}} "运行"]]}]
     (comps/base-page
       :title "枚举算法"
       :left-menu-datas left-menu-datas

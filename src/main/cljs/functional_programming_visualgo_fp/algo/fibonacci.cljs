@@ -106,8 +106,7 @@
   (reagent/with-let [n-value (reagent/atom 5)]
     (let [left-menu-datas
           [{:button-name "GraphViz图" :menu-item-name "graphviz" :click-fn nil}
-           {:button-name "可视化计算过程" :menu-item-name "visual-process"
-            :click-fn #(run-fibonacci! (min 7 (js/parseInt @n-value)))}
+           {:button-name "斐波那契" :menu-item-name "visual-process" :click-fn nil}
            {:button-name "算法时间复杂度" :menu-item-name "time-complexity"
             :click-fn #(js/alert "时间复杂度 O(2^n)，空间复杂度 O(n)")}]
           left-menu-item-datas

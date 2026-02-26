@@ -190,10 +190,8 @@
                      lcs-s2 (reagent/atom "BDCAB")]
     (let [left-menu-datas
           [{:button-name "GraphViz图" :menu-item-name "graphviz" :click-fn nil}
-           {:button-name "爬楼梯" :menu-item-name "climbing"
-            :click-fn #(run-climbing-stairs! (js/parseInt @n-value))}
-           {:button-name "最长公共子序列" :menu-item-name "lcs"
-            :click-fn #(run-lcs! @lcs-s1 @lcs-s2)}
+           {:button-name "爬楼梯" :menu-item-name "climbing" :click-fn nil}
+           {:button-name "最长公共子序列" :menu-item-name "lcs" :click-fn nil}
            {:button-name "算法时间复杂度" :menu-item-name "time-complexity"
             :click-fn #(js/alert "爬楼梯 O(n)，LCS O(m*n)")}]
           left-menu-item-datas
@@ -211,7 +209,7 @@
               :class (<class css/hover-menu-style)
               :style {:width "4em"}} "运行"]]
            "lcs"
-           [:div.flex.flex-row {:style {:margin-top "4.5em"}}
+           [:div.flex.flex-row {:style {:margin-top "2.5em"}}
             [:div.ml1
              [:input {:value @lcs-s1
                       :on-change #(reset! lcs-s1 (.. % -target -value))

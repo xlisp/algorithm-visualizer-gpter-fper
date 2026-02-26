@@ -284,14 +284,10 @@
     (let [parse-arr (fn [s] (vec (map js/parseInt (clojure.string/split s #","))))
           left-menu-datas
           [{:button-name "GraphViz图" :menu-item-name "graphviz" :click-fn nil}
-           {:button-name "二分查找" :menu-item-name "binary-search"
-            :click-fn #(run-binary-search! (parse-arr @sort-data) (js/parseInt @search-target))}
-           {:button-name "归并排序" :menu-item-name "merge-sort"
-            :click-fn #(run-merge-sort! (parse-arr @sort-data))}
-           {:button-name "快速排序" :menu-item-name "quick-sort"
-            :click-fn #(run-quick-sort! (parse-arr @sort-data))}
-           {:button-name "汉诺塔" :menu-item-name "hanoi"
-            :click-fn #(run-hanoi! (js/parseInt @hanoi-n))}
+           {:button-name "二分查找" :menu-item-name "binary-search" :click-fn nil}
+           {:button-name "归并排序" :menu-item-name "merge-sort" :click-fn nil}
+           {:button-name "快速排序" :menu-item-name "quick-sort" :click-fn nil}
+           {:button-name "汉诺塔" :menu-item-name "hanoi" :click-fn nil}
            {:button-name "算法时间复杂度" :menu-item-name "time-complexity"
             :click-fn #(js/alert "二分查找O(logn) 归并O(nlogn) 快排O(nlogn) 汉诺塔O(2^n)")}]
           left-menu-item-datas

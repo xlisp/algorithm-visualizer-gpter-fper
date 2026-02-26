@@ -148,15 +148,18 @@
   (reagent/with-let [n-value (reagent/atom 4)]
     (let [left-menu-datas
           [{:button-name "GraphViz图" :menu-item-name "graphviz" :click-fn nil}
-           {:button-name "八皇后" :menu-item-name "queens"
-            :click-fn #(run-queens! 6)}
-           {:button-name "全排列" :menu-item-name "permutation"
-            :click-fn #(run-permutation! (js/parseInt @n-value))}
+           {:button-name "八皇后" :menu-item-name "queens" :click-fn nil}
+           {:button-name "全排列" :menu-item-name "permutation" :click-fn nil}
            {:button-name "算法时间复杂度" :menu-item-name "time-complexity"
             :click-fn #(js/alert "八皇后 O(n!)，全排列 O(n!)")}]
           left-menu-item-datas
           {"graphviz" [:div]
-           "queens" [:div]
+           "queens"
+           [:div.flex.flex-row {:style {:margin-top "2.5em"}}
+            [:div.bg-yellow.ml1.pa1.f6
+             {:on-click #(run-queens! 6)
+              :class (<class css/hover-menu-style)
+              :style {:width "4em"}} "运行"]]
            "permutation"
            [:div.flex.flex-row {:style {:margin-top "2.5em"}}
             [:div.ml1
